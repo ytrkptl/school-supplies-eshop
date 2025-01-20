@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 import Spinner from '../spinner/spinner.component';
 
-import { sendContactFormStart } from "../../redux/contact/contact.actions";
+import { sendContactForm } from "../../redux/contact/contact.reducer";
 
 import {
   ContactContainer,
@@ -14,56 +14,59 @@ import {
   StyledSuccessOrErrorMessage
 } from './contact.styles';
 
-const Contact = ({ isFetching, hasErrored, data, sendContactFormStart }) => {
-  const [userInput, setUserInput] = useState({ customerName: '', email: '', message: '' })
+const Contact = () => {
+  const dispatch = useDispatch();
+  const isFetching = useSelector(state => state.contactForm.isFetching);
+  const hasErrored = useSelector(state => state.contactForm.hasErrored);
+  const data = useSelector(state => state.contactForm.data);
+
+  const [userInput, setUserInput] = useState({ customerName: '', email: '', message: '' });
   const [showSpinner, setShowSpinner] = useState(false);
   const [successOrErrorMessage, setSuccessOrErrorMessage] = useState('');
-  const [showSuccessOrErrorMessage, setShowSuccessOrErrorMessage] = useState(false)
+  const [showSuccessOrErrorMessage, setShowSuccessOrErrorMessage] = useState(false);
   const { customerName, email, message } = userInput;
 
   useEffect(() => {
     if (isFetching) {
-      setShowSpinner(true)
+      setShowSpinner(true);
     } else {
-      setShowSpinner(false)
+      setShowSpinner(false);
       if (!hasErrored && data !== null) {
-        setUserInput({ customerName: '', email: '', message: '' })
+        setUserInput({ customerName: '', email: '', message: '' });
         setSuccessOrErrorMessage(`Your message was sent successfully! If the email you provided
-          is valid, we'll get back in touch with you within 48 hours.`)
-        setShowSuccessOrErrorMessage(true)
+          is valid, we'll get back in touch with you within 48 hours.`);
+        setShowSuccessOrErrorMessage(true);
       } else if (data !== null) {
-        setSuccessOrErrorMessage('Something went wrong. Please try sending the form again!')
-        setShowSuccessOrErrorMessage(true)
+        setSuccessOrErrorMessage('Something went wrong. Please try sending the form again!');
+        setShowSuccessOrErrorMessage(true);
       }
     }
     return () => {
-      setShowSpinner(false)
-      setSuccessOrErrorMessage('')
-      setShowSuccessOrErrorMessage(false)
+      setShowSpinner(false);
+      setSuccessOrErrorMessage('');
+      setShowSuccessOrErrorMessage(false);
     };
-  }, [isFetching, hasErrored, data])
+  }, [isFetching, hasErrored, data]);
 
   const handleSubmit = async event => {
     event.preventDefault();
-    fetchContactFormStart(userInput)
-    window.scrollTo(0,0)
+    dispatch(sendContactForm(userInput));
+    window.scrollTo(0, 0);
   };
 
   const handleChange = event => {
-    const { value, name } = event.target;
+    const { name, value } = event.target;
     setUserInput({ ...userInput, [name]: value });
   };
 
   return (
     <ContactContainer>
-      <ContactTitle>Contact Form</ContactTitle>
+      <ContactTitle>Contact Us</ContactTitle>
       <span>Fill out the form below in order to send us a message.</span>
-      {showSpinner && <Spinner />}
-      {showSuccessOrErrorMessage && <StyledSuccessOrErrorMessage hasErrored={hasErrored}>{successOrErrorMessage}</StyledSuccessOrErrorMessage>}
       <form onSubmit={handleSubmit}>
         <FormInput
           name='customerName'
-          type='name'
+          type='text'
           value={customerName}
           handleChange={handleChange}
           label='Name'
@@ -87,21 +90,15 @@ const Contact = ({ isFetching, hasErrored, data, sendContactFormStart }) => {
           textareaInstead={true}
         />
         <ContactButtonsContainer>
-          <CustomButton type='submit'> Submit </CustomButton>
+          <CustomButton type='submit'>Send Message</CustomButton>
         </ContactButtonsContainer>
       </form>
+      {showSpinner && <Spinner />}
+      {showSuccessOrErrorMessage && (
+        <StyledSuccessOrErrorMessage hasErrored={hasErrored}>{successOrErrorMessage}</StyledSuccessOrErrorMessage>
+      )}
     </ContactContainer>
   );
-}
+};
 
-const mapStateToProps = state => ({
-  isFetching: state.contactFormReducer.isFetching,
-  hasErrored: state.contactFormReducer.hasErrored,
-  data: state.contactFormReducer.data
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchContactFormStart: text => dispatch(fetchContactFormStart(text))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Contact);
+export default Contact;
