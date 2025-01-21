@@ -1,49 +1,66 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { firestore } from '../../firebase/firebase.utils';
 
 const INITIAL_STATE = {
-  sections: [
-    {
-      title: 'hats',
-      imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
-      id: 1,
-      linkUrl: 'shop/hats'
-    },
-    {
-      title: 'jackets',
-      imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
-      id: 2,
-      linkUrl: 'shop/jackets'
-    },
-    {
-      title: 'sneakers',
-      imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
-      id: 3,
-      linkUrl: 'shop/sneakers'
-    },
-    {
-      title: 'womens',
-      imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
-      size: 'large',
-      id: 4,
-      linkUrl: 'shop/womens'
-    },
-    {
-      title: 'mens',
-      imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
-      size: 'large',
-      id: 5,
-      linkUrl: 'shop/mens'
-    }
-  ]
+  sections: [],
+  isLoading: false,
+  error: null
 };
+
+// Async thunk for fetching sections from Firestore
+export const fetchSections = createAsyncThunk(
+  'directory/fetchSections',
+  async (_, { rejectWithValue }) => {
+    try {
+      const collectionsRef = collection(firestore, 'collections');
+      const q = query(collectionsRef, orderBy('displayOrderId', 'asc'));
+      const snapshot = await getDocs(q);
+      
+      const sections = snapshot.docs.map(doc => {
+        const { title, id, imageUrl, displayOrderId } = doc.data();
+        return {
+          title,
+          id,
+          imageUrl,
+          displayOrderId,
+          linkUrl: `shop/${title.toLowerCase().replace(/[^a-z0-9]/g, '')}`,
+          size: title.length > 16 ? 'large' : ''
+        };
+      });
+
+      return sections;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const directorySlice = createSlice({
   name: 'directory',
   initialState: INITIAL_STATE,
-  reducers: {
-    // Since this is static data, we don't need any reducers yet
-    // We can add them here if needed in the future
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSections.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchSections.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.sections = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchSections.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   }
 });
+
+// Selectors
+export const selectDirectory = state => state.directory.sections;
+export const selectIsLoading = state => state.directory.isLoading;
+export const selectError = state => state.directory.error;
 
 export default directorySlice.reducer;
