@@ -18,7 +18,7 @@ export const HeaderContainer = styled.div`
 	}
 `;
 export const LogoImage = styled.img.attrs({
-	src: Logo2,
+	src: `https://res.cloudinary.com/dun1b4fpw/image/upload/v1737463727/school-supplies-store/logos/logo-48.png`,
 	alt: ""
 })`
 	height: 70px;	
