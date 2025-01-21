@@ -9,7 +9,8 @@ import {
   setPersistence,
   browserLocalPersistence,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  signInAnonymously
 } from "firebase/auth";
 import { 
   addDoc, 
@@ -200,5 +201,97 @@ export const getCurrentUser = () => {
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
+
+// Clean data for Firestore
+function cleanItem(item) {
+  return Object.entries(item).reduce((acc, [key, value]) => {
+    if (value != null && typeof value !== 'function') {
+      acc[key] = value;
+    }
+    return acc;
+  }, {});
+}
+
+export const checkAndSeedCollections = async () => {
+  // Only seed in development
+  if (import.meta.env.MODE !== 'development') {
+    return;
+  }
+
+  try {
+    // Import the data directly in development
+    const { products } = (await import('../../products_data_reorganized.json')).default;
+    const { categoryImagesData } = (await import('../../category_images.js'));
+    // First create a test user if needed for auth rules
+    const userAuth = auth.currentUser;
+    if (!userAuth) {
+      console.log('No user authenticated, signing in anonymously for seeding...');
+      await signInAnonymously(auth);
+    }
+
+    // Create a batch write
+    const batch = writeBatch(firestore);
+    const collectionsRef = collection(firestore, 'collections');
+    
+    // Check existing documents and prepare batch
+    let needsSeeding = false;
+    
+    for (const collection of products) {
+      const docId = collection.title.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const docRef = doc(collectionsRef, docId);
+      const docSnap = await getDoc(docRef);
+      
+      if (!docSnap.exists()) {
+        needsSeeding = true;
+        console.log(`Preparing to seed collection: ${collection.title}`);
+        
+        // Clean the items data
+        const cleanedItems = collection.items.map(item => cleanItem(item));
+        console.log(categoryImagesData[collection.title]);
+        batch.set(docRef, {
+          title: collection.title,
+          routeName: docId,
+          id: docId,
+          items: cleanedItems,
+          imageUrl: categoryImagesData[collection.title].imageUrl,
+          displayOrderId: categoryImagesData[collection.title].displayOrderId
+        });
+      } else {
+        console.log(`Collection ${collection.title} already exists, skipping`);
+      }
+    }
+
+    // Only commit if we have new documents to add
+    if (needsSeeding) {
+      await batch.commit();
+      console.log('✅ New collections successfully seeded to development environment');
+    } else {
+      console.log('All collections already exist, no seeding needed');
+    }
+
+    // Sign out if we signed in anonymously
+    if (!userAuth) {
+      await auth.signOut();
+    }
+  } catch (error) {
+    console.error('❌ Error seeding collections:', error);
+    throw error;
+  }
+};
+
+// Emulator setup
+function startEmulators() {
+  connectAuthEmulator(auth, "http://localhost:9099");
+  connectFirestoreEmulator(firestore, "localhost", 8080);
+  // connectStorageEmulator(storage, "localhost", 9199);
+}
+
+if (import.meta.env.MODE !== "production") {
+  startEmulators();
+}
+
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Error setting local persistence:", error);
+});
 
 export default firebaseApp;

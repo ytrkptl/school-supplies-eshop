@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev-local": "vite",
+    "dev": "concurrently --kill-others-on-fail \"npm run firebase-dev\" \"npm run dev-local\"",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write src/",
+    "firebase-dev": "firebase emulators:start --project school-supplies-store-3834d"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
