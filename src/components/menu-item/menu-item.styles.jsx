@@ -52,7 +52,9 @@ export const BackgroundImageContainer = styled.div`
 
 export const ContentContainer = styled.div`
   height: 90px;
-  padding: 0 25px;
+  width: 240px;
+  padding: 1em 25px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
