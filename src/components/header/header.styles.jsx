@@ -1,31 +1,59 @@
 import styled from 'styled-components';
-import Logo2 from '../../assets/Shop10.png';
 import { Link } from 'react-router-dom';
 
 export const HeaderContainer = styled.div`
 	height: 74px;
 	width: 100%;
 	display: inline-grid;
-	grid-template-columns: 1fr 3fr;
+	grid-template-columns: 74px 3fr 4fr;
+	grid-gap: 1em;
 	justify-items: center;
 	align-items: center;
 	margin-bottom: 34px;
 	border-bottom: 1px solid black;
+
+	@media screen and (max-width: 1200px) {
+		height: 100px;
+		// grid-template-columns: 74px 4fr;
+	}
 	
+	@media screen and (max-width: 950px) {
+		height: 150px;
+		//grid-template-columns: 1fr 5fr;
+	}
 	@media screen and (max-width: 600px) {
-		height: 70px;
-		grid-template-columns: 1fr 5fr;
+	height: 70px;
+		grid-template-columns: 74px 4fr;
 	}
 `;
 export const LogoImage = styled.img.attrs({
-	src: `https://res.cloudinary.com/dun1b4fpw/image/upload/v1737463727/school-supplies-store/logos/logo-48.png`,
+	src: `https://res.cloudinary.com/dun1b4fpw/image/upload/v1737505464/school-supplies-store/logos/tinified/logo-128.png`,
 	alt: ""
 })`
 	height: 70px;	
 	width: auto;
-	padding-left: 10px;
 	margin-right: auto;
 `;
+
+export const SchoolShopTitle = styled.div`
+	height: 100%;
+	width: 100%;
+	font-size: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	font-family: "Playwrite US Modern", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
+	@media screen and (max-width: 1200px) {
+		font-size: 25px;
+	}
+	@media screen and (max-width: 600px) {
+		display: none;
+	}
+`
 
 export const LogoContainer = styled(Link)`
 	height: 100%;

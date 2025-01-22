@@ -9,6 +9,7 @@ import {
   HeaderContainer,
   LogoContainer,
   LogoImage,
+  SchoolShopTitle,
   OptionsContainer,
   OptionLink,
 } from "./header.styles";
@@ -26,6 +27,7 @@ const Header = () => {
       <LogoContainer to="/" name="logo">
         <LogoImage />
       </LogoContainer>
+      <SchoolShopTitle>School Supplies E-Shop</SchoolShopTitle>
       <OptionsContainer>
         <OptionLink to="/shop">SHOP</OptionLink>
         <OptionLink to="/contact">CONTACT</OptionLink>
