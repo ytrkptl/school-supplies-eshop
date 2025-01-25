@@ -14,10 +14,10 @@ import {
 
 const CollectionPage = () => {
   const { collectionId } = useParams();
-  console.log(collectionId);
   const collection = useSelector(state => selectCollection(collectionId)(state));
 
   if (!collection) {
+    console.log('Collection not found');
     return null;
   }
 

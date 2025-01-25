@@ -24,7 +24,7 @@ export const fetchSections = createAsyncThunk(
           id,
           imageUrl,
           displayOrderId,
-          linkUrl: `shop/${title.toLowerCase().replace(/[^a-z0-9]/g, '')}`,
+          linkUrl: `shop/${title.toLowerCase().replace(/\s/g, '-')}`,
           size: title.length > 16 ? 'large' : ''
         };
       });

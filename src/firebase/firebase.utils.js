@@ -124,20 +124,21 @@ export const addCollectionAndDocuments = async (
 
 export const convertCollectionsSnapshotToMap = collections => {
   const transformedArray = collections.docs.map(doc => {
-    const { title, items } = doc.data();
-    console.log(title);
+    const { title, routeName, items } = doc.data();
     return {
-      routeName: encodeURI(title.toLowerCase()),
+      routeName: routeName || title.toLowerCase().replace(/\s/g, '-'),
       id: doc.id,
       title,
       items
     };
   });
 
-  return transformedArray.reduce((accumulator, collection) => {
-    accumulator[collection.title.toLowerCase()] = collection;
+  const reducedObject = transformedArray.reduce((accumulator, collection) => {
+    accumulator[collection.routeName] = collection;
     return accumulator;
   }, {});
+
+  return reducedObject;
 };
 
 // Sign in with email and password.
@@ -237,21 +238,19 @@ export const checkAndSeedCollections = async () => {
     let needsSeeding = false;
     
     for (const collection of products) {
-      const docId = collection.title.toLowerCase().replace(/[^a-z0-9]/g, '');
-      const docRef = doc(collectionsRef, docId);
+      const routeName = collection.title.toLowerCase().replace(/\s/g, '-');
+      const docRef = doc(collectionsRef, routeName);
       const docSnap = await getDoc(docRef);
       
       if (!docSnap.exists()) {
         needsSeeding = true;
-        console.log(`Preparing to seed collection: ${collection.title}`);
-        
         // Clean the items data
         const cleanedItems = collection.items.map(item => cleanItem(item));
         console.log(categoryImagesData[collection.title]);
         batch.set(docRef, {
           title: collection.title,
-          routeName: docId,
-          id: docId,
+          routeName: routeName,
+          id: routeName,
           items: cleanedItems,
           imageUrl: categoryImagesData[collection.title].imageUrl,
           displayOrderId: categoryImagesData[collection.title].displayOrderId
