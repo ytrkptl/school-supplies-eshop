@@ -59,7 +59,7 @@ export const BackgroundImage = styled.div`
   background-size: cover;
   background-position: center;
   margin-bottom: 5px;
-  background-image: ${({ $imageurl }) => `url(${$imageurl})`};
+  background-image: ${({ $imageUrl }) => `url(${$imageUrl})`};
 `;
 
 export const CollectionFooterContainer = styled.div`

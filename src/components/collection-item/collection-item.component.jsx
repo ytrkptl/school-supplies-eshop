@@ -20,7 +20,7 @@ const CollectionItem = ({ item }) => {
 
   return (
     <CollectionItemContainer>
-      <BackgroundImage className='image' $imageurl={imageUrl} />
+      <BackgroundImage className='image' $imageUrl={imageUrl} />
       <CollectionFooterContainer>
         <NameContainer>{name}</NameContainer>
         <PriceContainer>{price}</PriceContainer>
