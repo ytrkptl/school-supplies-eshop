@@ -11,7 +11,7 @@ import { GlobalStyle } from './global.styles';
 
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { checkUserSession } from './redux/user/user.reducer';
-import { checkAndSeedCollections } from './firebase/firebase.utils';
+import { checkAndSeedCollections } from '@/utils/firebase/firebase.utils';
 
 const HomePage = lazy(() => import('./pages/homepage/homepage.component'))
 const ShopPage = lazy(() => import('./pages/shop/shop.component'))
