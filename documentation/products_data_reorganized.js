@@ -1,5 +1,4 @@
-{
-  "products": [
+export const products = [
     {
       "title": "Writing Supplies",
       "items": [
@@ -525,4 +524,3 @@
       ]
     }
   ]
-}
