@@ -152,7 +152,6 @@ export const signInWithCredentialsWrapper = async (email, password) => {
     } else {
       throw new Error("Something went wrong. Please try again or contact support.");
     }
-    throw error;
   }
 };
 
@@ -167,7 +166,6 @@ export const signUpWithCredentialsWrapper = async (email, password) => {
     } else {
       throw new Error("Something went wrong. Please try again or contact support.");
     }
-    throw error;
   }
 };
 
@@ -203,15 +201,10 @@ export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
-// Clean data for Firestore
-function cleanItem(item) {
-  return Object.entries(item).reduce((acc, [key, value]) => {
-    if (value != null && typeof value !== 'function') {
-      acc[key] = value;
-    }
-    return acc;
-  }, {});
-}
+const cleanItem = (item) => {
+  const { id, name, price, imageUrl } = item;
+  return { id, name, price, imageUrl };
+};
 
 export const checkAndSeedCollections = async () => {
   // Only seed in development
@@ -221,8 +214,8 @@ export const checkAndSeedCollections = async () => {
 
   try {
     // Import the data directly in development
-    const { products } = (await import('../../products_data_reorganized.json')).default;
-    const { categoryImagesData } = (await import('../../category_images.js'));
+    const { products } = (await import('../../../documentation/products_data_reorganized.js'));
+    const { categoryImagesData } = (await import('../../../documentation/category_images.js'));
     // First create a test user if needed for auth rules
     const userAuth = auth.currentUser;
     if (!userAuth) {
@@ -246,7 +239,7 @@ export const checkAndSeedCollections = async () => {
         needsSeeding = true;
         // Clean the items data
         const cleanedItems = collection.items.map(item => cleanItem(item));
-        console.log(categoryImagesData[collection.title]);
+        // console.log(categoryImagesData[collection.title]);
         batch.set(docRef, {
           title: collection.title,
           routeName: routeName,

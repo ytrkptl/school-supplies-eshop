@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { 
   firestore, 
   convertCollectionsSnapshotToMap 
-} from '../../firebase/firebase.utils';
+} from '@/utils/firebase/firebase.utils';
 import { collection, getDocs } from 'firebase/firestore';
 
 export const fetchCollectionsAsync = createAsyncThunk(

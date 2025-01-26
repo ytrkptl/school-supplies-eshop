@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import { firestore } from '../../firebase/firebase.utils';
+import { firestore } from '@/utils/firebase/firebase.utils';
 
 const INITIAL_STATE = {
   sections: [],

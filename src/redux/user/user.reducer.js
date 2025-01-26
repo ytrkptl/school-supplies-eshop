@@ -4,7 +4,7 @@ import {
   googleProvider, 
   createUserProfileDocument,
   getCurrentUser
-} from '../../firebase/firebase.utils';
+} from '@/utils/firebase/firebase.utils';
 
 // Helper function to get user snapshot
 const getUserSnapshot = async (userAuth, additionalData) => {
