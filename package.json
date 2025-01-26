@@ -10,17 +10,24 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write src/",
-    "firebase-dev": "firebase emulators:start --project school-supplies-store-3834d"
+    "firebase-dev": "firebase emulators:start --project school-supplies-store-3834d",
+    "preseed-production": "firebase deploy --only firestore:rules --config firestore.seed.rules.json",
+    "seed-production": "node src/db/seeds/seed-firestore.js",
+    "postseed-production": "firebase deploy --only firestore:rules --config firestore.rules.json"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
+    "@stripe/react-stripe-js": "^3.1.1",
+    "@stripe/stripe-js": "^5.5.0",
     "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
     "firebase": "^11.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.28.2",
     "redux-persist": "^6.0.0",
+    "stripe": "^17.5.0",
     "styled-components": "^6.1.14"
   },
   "devDependencies": {
