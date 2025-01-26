@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App.jsx';
 import { store, persistor  } from "@/redux/store";
+import { stripePromise } from "@/utils/stripe/stripe.utils";
+import { Elements } from "@stripe/react-stripe-js";
 import './index.css'
 
 const rootElement = document.getElementById("root");
@@ -16,11 +18,13 @@ if (!rootElement) {
 	root.render(
 		<StrictMode>
 			<Provider store={store}>
-				<BrowserRouter>
 			<PersistGate persistor={persistor}>
-					<App />
-			</PersistGate>
+				<BrowserRouter>
+					<Elements stripe={stripePromise}>
+						<App />
+					</Elements>
 				</BrowserRouter>
+			</PersistGate>
 			</Provider>
 		</StrictMode>
 	);
