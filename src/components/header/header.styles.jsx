@@ -18,11 +18,10 @@ export const HeaderContainer = styled.div`
 
   @media screen and (max-width: 950px) {
     height: 150px;
-    //grid-template-columns: 1fr 5fr;
   }
   @media screen and (max-width: 600px) {
     height: 70px;
-    grid-template-columns: 74px 4fr;
+    grid-template-columns: 44px 4fr;
   }
 `;
 export const LogoImage = styled.img.attrs({
@@ -87,6 +86,10 @@ export const OptionsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  & > a:nth-child(3), & > div:nth-child(3) {
+    text-wrap: nowrap;
+  }
 
   @media screen and (max-width: 600px) {
     display: grid;
