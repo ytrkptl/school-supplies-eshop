@@ -1,20 +1,89 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import Slider from "react-slick";
 import CollectionItem from '../collection-item/collection-item.component';
 
 import {
   CollectionPreviewContainer,
   TitleContainer,
-  PreviewContainer
+  NextArrow,
+  PrevArrow
 } from './collection-preview.styles';
+
+const getVisibleSlides = () => {
+  if (window.innerWidth <= 480) return 1;
+  if (window.innerWidth <= 768) return 2;
+  return 3;
+};
+
+const CustomNextArrow = ({ onClick, currentSlide, slideCount, ...props }) => {
+  const visibleSlides = getVisibleSlides();
+  return (
+    <NextArrow
+      onClick={onClick}
+      disabled={currentSlide >= slideCount - visibleSlides}
+      {...props}
+    />
+  );
+};
+
+const CustomPrevArrow = ({ onClick, currentSlide, ...props }) => (
+  <PrevArrow
+    onClick={onClick}
+    disabled={currentSlide === 0}
+    {...props}
+  />
+);
 
 const CollectionPreview = ({ title, items, routeName }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [slidesToShow, setSlidesToShow] = useState(getVisibleSlides());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSlidesToShow(getVisibleSlides());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleTitleClick = () => {
     navigate(`${location.pathname}/${routeName}`);
+  };
+
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow,
+    slidesToScroll: 1,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
   };
 
   return (
@@ -22,13 +91,11 @@ const CollectionPreview = ({ title, items, routeName }) => {
       <TitleContainer onClick={handleTitleClick}>
         {title.toUpperCase()}
       </TitleContainer>
-      <PreviewContainer>
-        {items
-          .filter((item, idx) => idx < 4)
-          .map(item => (
-            <CollectionItem key={item.id} item={item} />
-          ))}
-      </PreviewContainer>
+      <Slider {...settings}>
+        {items.map(item => (
+          <CollectionItem key={item.id} item={item} />
+        ))}
+      </Slider>
     </CollectionPreviewContainer>
   );
 };
