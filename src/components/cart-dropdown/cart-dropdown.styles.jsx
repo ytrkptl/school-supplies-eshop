@@ -14,18 +14,17 @@ export const CartDropdownContainer = styled.div`
   z-index: 5;
   top: 58px;
   margin-right: 60px;
+  margin-top: 4em;
 
-  @media screen and (max-width: 650px) {
-    top: 56px;
-    margin-right: 20px;
-  }
   @media screen and (max-width: 600px) {
     margin-right: 10px;
+    margin-top: 1em;
   }
 `;
 
 export const CartDropdownButton = styled(CustomButton)`
   margin-top: auto;
+  padding: 0 1em;
 `;
 
 export const EmptyMessageContainer = styled.span`
