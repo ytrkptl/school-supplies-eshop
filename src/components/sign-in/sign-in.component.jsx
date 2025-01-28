@@ -7,7 +7,7 @@ import CustomButton from '../custom-button/custom-button.component';
 import {
   googleSignInStart,
   emailSignInStart
-} from '../../redux/user/user.reducer';
+} from '@/redux/user/user.reducer';
 
 import {
   SignInContainer,
@@ -46,7 +46,7 @@ const SignIn = () => {
           type='email'
           handleChange={handleChange}
           value={email}
-          label='email'
+          label='Email'
           required
         />
         <FormInput
@@ -54,7 +54,7 @@ const SignIn = () => {
           type='password'
           value={password}
           handleChange={handleChange}
-          label='password'
+          label='Password'
           required
         />
         <ButtonsBarContainer>

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import { signUpStart, signUpSuccess, signUpFailure } from '../../redux/user/user.reducer';
+import { signUpStart } from '../../redux/user/user.reducer';
 
 import { SignUpContainer, SignUpTitle } from './sign-up.styles';
 
@@ -32,7 +32,11 @@ const SignUp = () => {
 
   const handleChange = event => {
     const { name, value } = event.target;
-    setUserCredentials({...userCredentials, [name]: value });
+
+    setUserCredentials({
+      ...userCredentials,
+      [name]: value
+    });
   };
 
   return (
