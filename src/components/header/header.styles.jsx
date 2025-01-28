@@ -5,7 +5,7 @@ export const HeaderContainer = styled.div`
   height: 74px;
   width: 100%;
   display: inline-grid;
-  grid-template-columns: 74px 3fr 4fr;
+  grid-template-columns: 5fr 7fr;
   grid-gap: 1em;
   justify-items: center;
   align-items: center;
@@ -30,12 +30,11 @@ export const LogoImage = styled.img.attrs({
 })`
   height: 70px;
   width: auto;
-  margin-right: auto;
+  margin-right: 1em;
 `;
 
 export const SchoolShopTitle = styled.div`
   height: 100%;
-  width: 100%;
   font-size: 30px;
   display: flex;
   align-items: center;
