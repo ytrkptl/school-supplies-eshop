@@ -10,8 +10,11 @@ import {
 
 import {
   CheckoutPageContainer,
-  CheckoutHeaderContainer,
-  HeaderBlockContainer,
+  CheckoutTable,
+  CheckoutHeader,
+  HeaderRow,
+  HeaderCell,
+  CheckoutBody,
   TotalContainer,
   WarningContainer
 } from './checkout.styles';
@@ -22,18 +25,22 @@ const CheckoutPage = () => {
 
   return (
     <CheckoutPageContainer>
-      <CheckoutHeaderContainer>
-        <HeaderBlockContainer>
-          <span>Product</span>
-          <span>Description</span>
-          <span>Quantity</span>
-          <span>Price</span>
-          <span>Remove</span>
-        </HeaderBlockContainer>
-      </CheckoutHeaderContainer>
-      {cartItems.map(cartItem => (
-        <CheckoutItem key={cartItem.id} cartItem={cartItem} />
-      ))}
+      <CheckoutTable>
+        <CheckoutHeader>
+          <HeaderRow>
+            <HeaderCell>Product</HeaderCell>
+            <HeaderCell>Description</HeaderCell>
+            <HeaderCell>Quantity</HeaderCell>
+            <HeaderCell>Price</HeaderCell>
+            <HeaderCell>Remove</HeaderCell>
+          </HeaderRow>
+        </CheckoutHeader>
+        <CheckoutBody>
+          {cartItems.map(cartItem => (
+            <CheckoutItem key={cartItem.id} cartItem={cartItem} />
+          ))}
+        </CheckoutBody>
+      </CheckoutTable>
       <TotalContainer>TOTAL: ${total}</TotalContainer>
       <WarningContainer>
         *Please use the following test credit card for payments*
