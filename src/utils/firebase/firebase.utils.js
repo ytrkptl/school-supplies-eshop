@@ -63,8 +63,29 @@ function createFirebaseApp(config) {
 
 // Initialize Firebase
 const firebaseApp = createFirebaseApp(firebaseConfig);
-export const firestore = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
+export const firestore = getFirestore(firebaseApp);
+
+// Emulator setup
+function startEmulators() {
+  try {
+    connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
+    connectFirestoreEmulator(firestore, "localhost", 8080);
+    console.log('🔥 Connected to Firebase emulators');
+  } catch (error) {
+    console.error('Error connecting to emulators:', error);
+  }
+}
+
+// Start emulators in development mode
+if (import.meta.env.MODE === 'development') {
+  startEmulators();
+}
+
+// Initialize persistence after emulator setup
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Error setting local persistence:", error);
+});
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
@@ -270,20 +291,5 @@ export const checkAndSeedCollections = async () => {
     throw error;
   }
 };
-
-// Emulator setup
-function startEmulators() {
-  connectAuthEmulator(auth, "http://localhost:9099");
-  connectFirestoreEmulator(firestore, "localhost", 8080);
-  // connectStorageEmulator(storage, "localhost", 9199);
-}
-
-if (import.meta.env.MODE !== "production") {
-  startEmulators();
-}
-
-setPersistence(auth, browserLocalPersistence).catch((error) => {
-  console.error("Error setting local persistence:", error);
-});
 
 export default firebaseApp;
