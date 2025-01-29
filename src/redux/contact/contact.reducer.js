@@ -11,7 +11,7 @@ export const sendContactForm = createAsyncThunk(
   'contact/sendContactForm',
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await fetch('/send-contact-form', {
+      const response = await fetch('.netlify/functions/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -19,11 +19,12 @@ export const sendContactForm = createAsyncThunk(
         body: JSON.stringify(formData)
       });
       
-      if (response.status === 200) {
-        const data = await response.json();
+      const data = await response.json();
+      
+      if (response.ok) {
         return data;
       } else {
-        return rejectWithValue('Something went wrong');
+        return rejectWithValue(data.message || 'Something went wrong');
       }
     } catch (error) {
       return rejectWithValue(error.message || 'An error occurred');

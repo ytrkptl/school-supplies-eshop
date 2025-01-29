@@ -5,7 +5,7 @@ import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 import Spinner from '../spinner/spinner.component';
 
-import { sendContactForm } from "../../redux/contact/contact.reducer";
+import { sendContactForm } from '@/redux/contact/contact.reducer';
 
 import {
   ContactContainer,
@@ -20,11 +20,11 @@ const Contact = () => {
   const hasErrored = useSelector(state => state.contactForm.hasErrored);
   const data = useSelector(state => state.contactForm.data);
 
-  const [userInput, setUserInput] = useState({ customerName: '', email: '', message: '' });
+  const [userInput, setUserInput] = useState({ name: '', email: '', message: '' });
   const [showSpinner, setShowSpinner] = useState(false);
   const [successOrErrorMessage, setSuccessOrErrorMessage] = useState('');
   const [showSuccessOrErrorMessage, setShowSuccessOrErrorMessage] = useState(false);
-  const { customerName, email, message } = userInput;
+  const { name, email, message } = userInput;
 
   useEffect(() => {
     if (isFetching) {
@@ -32,7 +32,7 @@ const Contact = () => {
     } else {
       setShowSpinner(false);
       if (!hasErrored && data !== null) {
-        setUserInput({ customerName: '', email: '', message: '' });
+        setUserInput({ name: '', email: '', message: '' });
         setSuccessOrErrorMessage(`Your message was sent successfully! If the email you provided
           is valid, we'll get back in touch with you within 48 hours.`);
         setShowSuccessOrErrorMessage(true);
@@ -65,9 +65,9 @@ const Contact = () => {
       <span>Fill out the form below in order to send us a message.</span>
       <form onSubmit={handleSubmit}>
         <FormInput
-          name='customerName'
+          name='name'
           type='text'
-          value={customerName}
+          value={name}
           handleChange={handleChange}
           label='Name'
           required
