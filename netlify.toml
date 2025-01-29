@@ -1,0 +1,14 @@
+[dev]
+command = "npm run dev"
+port = 8888 # Change this to match your project's dev server port
+publish = "dist" # Set this to the directory where your built files are stored
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -5,7 +5,7 @@ import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 import Spinner from '../spinner/spinner.component';
 
-import { fetchContactFormStart } from "../../redux/contact/contact.actions";
+import { sendContactFormStart } from "../../redux/contact/contact.actions";
 
 import {
   ContactContainer,
@@ -14,7 +14,7 @@ import {
   StyledSuccessOrErrorMessage
 } from './contact.styles';
 
-const Contact = ({ isFetching, hasErrored, data, fetchContactFormStart }) => {
+const Contact = ({ isFetching, hasErrored, data, sendContactFormStart }) => {
   const [userInput, setUserInput] = useState({ customerName: '', email: '', message: '' })
   const [showSpinner, setShowSpinner] = useState(false);
   const [successOrErrorMessage, setSuccessOrErrorMessage] = useState('');

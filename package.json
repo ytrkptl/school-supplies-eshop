@@ -1,28 +1,49 @@
 {
-  "name": "shop-tunnel-server",
-  "version": "1.0.0",
-  "engines": {
-    "node": "10.16.0",
-    "npm": "6.9.0"
-  },
+  "name": "school-supplies-eshop",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "client": "cd client && npm start",
-    "server": "nodemon server.js",
-    "build": "cd client && npm run build",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "dev-local": "vite",
+    "dev": "concurrently --kill-others-on-fail \"npm run firebase-dev\" \"npm run dev-local\"",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "format": "prettier --write src/",
+    "firebase-dev": "firebase emulators:start --project school-supplies-store-3834d",
+    "preseed-production": "firebase deploy --only firestore:rules --config firestore.seed.rules.json",
+    "seed-production": "node src/db/seeds/seed-firestore.js",
+    "postseed-production": "firebase deploy --only firestore:rules --config firestore.rules.json"
   },
   "dependencies": {
-    "@sendgrid/mail": "^7.1.0",
-    "compression": "1.7.4",
-    "cors": "2.8.5",
-    "dotenv": "7.0.0",
-    "express": "^4.16.4",
-    "express-sslify": "^1.2.0",
-    "stripe": "6.28.0"
+    "@reduxjs/toolkit": "^2.5.0",
+    "@stripe/react-stripe-js": "^3.1.1",
+    "@stripe/stripe-js": "^5.5.0",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "firebase": "^11.2.0",
+    "nodemailer": "^6.10.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^6.28.2",
+    "react-slick": "^0.30.3",
+    "redux-persist": "^6.0.0",
+    "stripe": "^17.5.0",
+    "styled-components": "^6.1.14"
   },
   "devDependencies": {
-    "concurrently": "^4.0.1"
+    "@eslint/js": "^9.17.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "babel-plugin-styled-components": "^2.1.4",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "vite": "^6.0.5"
   }
 }
