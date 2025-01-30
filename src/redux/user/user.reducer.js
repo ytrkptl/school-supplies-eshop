@@ -1,15 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getDoc } from 'firebase/firestore';
 import { 
   auth, 
   googleProvider, 
   createUserProfileDocument,
-  getCurrentUser
+  getCurrentUser,
+  signUpWithCredentialsWrapper
 } from '@/utils/firebase/firebase.utils';
 
 // Helper function to get user snapshot
 const getUserSnapshot = async (userAuth, additionalData) => {
   const userRef = await createUserProfileDocument(userAuth, additionalData);
-  const userSnapshot = await userRef.get();
+  const userSnapshot = await getDoc(userRef);
   return { id: userSnapshot.id, ...userSnapshot.data() };
 };
 
@@ -55,7 +57,7 @@ export const signUpStart = createAsyncThunk(
   'user/signUp',
   async ({ email, password, displayName }, { dispatch, rejectWithValue }) => {
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(email, password);
+      const user = await signUpWithCredentialsWrapper(email, password, displayName);
       const userSnapshot = await getUserSnapshot(user, { displayName });
       return userSnapshot;
     } catch (error) {
@@ -85,7 +87,11 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       // Handle all pending states
