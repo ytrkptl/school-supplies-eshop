@@ -182,6 +182,7 @@ export const signUpWithCredentialsWrapper = async (email, password) => {
     const data = await createUserWithEmailAndPassword(auth, email, password);
     return data.user;
   } catch (error) {
+    //console.log('error creating user', error.message);
     if (error.message === "Firebase: Error (auth/email-already-in-use).") {
       throw new Error("The email/password combination is incorrect.");
     } else {
