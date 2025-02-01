@@ -63,6 +63,10 @@ const Contact = () => {
     <ContactContainer>
       <ContactTitle>Contact Us</ContactTitle>
       <span>Fill out the form below in order to send us a message.</span>
+      {showSpinner && <Spinner />}
+      {showSuccessOrErrorMessage && (
+        <StyledSuccessOrErrorMessage haserrored={hasErrored}>{successOrErrorMessage}</StyledSuccessOrErrorMessage>
+      )}
       <form onSubmit={handleSubmit}>
         <FormInput
           name='name'
@@ -90,13 +94,9 @@ const Contact = () => {
           textareaInstead={true}
         />
         <ContactButtonsContainer>
-          <CustomButton type='submit'>Send Message</CustomButton>
+          <CustomButton type='submit' disabled={isFetching}>Send Message</CustomButton>
         </ContactButtonsContainer>
       </form>
-      {showSpinner && <Spinner />}
-      {showSuccessOrErrorMessage && (
-        <StyledSuccessOrErrorMessage hasErrored={hasErrored}>{successOrErrorMessage}</StyledSuccessOrErrorMessage>
-      )}
     </ContactContainer>
   );
 };
