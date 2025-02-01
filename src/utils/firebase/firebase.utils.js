@@ -236,8 +236,8 @@ export const checkAndSeedCollections = async () => {
 
   try {
     // Import the data directly in development
-    const { products } = (await import('../../../documentation/products_data_reorganized.js'));
-    const { categoryImagesData } = (await import('../../../documentation/category_images.js'));
+    const { products } = (await import('../../../data/products_data_reorganized.js'));
+    const { categoryImagesData } = (await import('../../../data/category_images.js'));
     // First create a test user if needed for auth rules
     const userAuth = auth.currentUser;
     if (!userAuth) {
