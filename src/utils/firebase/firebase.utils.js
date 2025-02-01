@@ -10,7 +10,8 @@ import {
   browserLocalPersistence,
   GoogleAuthProvider,
   signInWithPopup,
-  signInAnonymously
+  signInAnonymously,
+  onAuthStateChanged
 } from "firebase/auth";
 import { 
   addDoc, 
@@ -212,12 +213,18 @@ export const signOutFromFirebase = async () => {
 
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged(userAuth => {
-      unsubscribe();
-      resolve(userAuth);
-    }, reject)
+    const unsubscribe = onAuthStateChanged(auth, 
+      userAuth => {
+        unsubscribe();
+        resolve(userAuth);
+      }, 
+      error => {
+        unsubscribe();
+        reject(error);
+      }
+    );
   });
-}
+};
 
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });

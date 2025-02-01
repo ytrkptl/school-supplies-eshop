@@ -5,8 +5,10 @@ import {
   googleProvider, 
   createUserProfileDocument,
   getCurrentUser,
-  signUpWithCredentialsWrapper
+  signUpWithCredentialsWrapper,
+  signOutFromFirebase
 } from '@/utils/firebase/firebase.utils';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 // Helper function to get user snapshot
 const getUserSnapshot = async (userAuth, additionalData) => {
@@ -33,8 +35,8 @@ export const googleSignInStart = createAsyncThunk(
   'user/googleSignIn',
   async (_, { rejectWithValue }) => {
     try {
-      const { user } = await auth.signInWithPopup(googleProvider);
-      return await getUserSnapshot(user);
+      const result = await signInWithPopup(auth, googleProvider);
+      return await getUserSnapshot(result.user);
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -45,8 +47,8 @@ export const emailSignInStart = createAsyncThunk(
   'user/emailSignIn',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const { user } = await auth.signInWithEmailAndPassword(email, password);
-      return await getUserSnapshot(user);
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return await getUserSnapshot(result.user);
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -70,7 +72,7 @@ export const signOutStart = createAsyncThunk(
   'user/signOut',
   async (_, { rejectWithValue }) => {
     try {
-      await auth.signOut();
+      await signOutFromFirebase();
       return null;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -94,31 +96,62 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Handle all pending states
-      .addMatcher(
-        (action) => action.type.endsWith('/pending'),
-        (state) => {
-          state.isLoading = true;
-          state.error = null;
-        }
-      )
-      // Handle all fulfilled states
-      .addMatcher(
-        (action) => action.type.endsWith('/fulfilled'),
-        (state, action) => {
-          state.isLoading = false;
-          state.currentUser = action.payload;
-          state.error = null;
-        }
-      )
-      // Handle all rejected states
-      .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
-        (state, action) => {
-          state.isLoading = false;
-          state.error = action.payload;
-        }
-      );
+      // Check user session
+      .addCase(checkUserSession.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(checkUserSession.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentUser = action.payload;
+        state.error = null;
+      })
+      .addCase(checkUserSession.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Google sign in
+      .addCase(googleSignInStart.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(googleSignInStart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentUser = action.payload;
+        state.error = null;
+      })
+      .addCase(googleSignInStart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Email sign in
+      .addCase(emailSignInStart.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(emailSignInStart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentUser = action.payload;
+        state.error = null;
+      })
+      .addCase(emailSignInStart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Sign out
+      .addCase(signOutStart.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(signOutStart.fulfilled, (state) => {
+        state.isLoading = false;
+        state.currentUser = null;
+        state.error = null;
+      })
+      .addCase(signOutStart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   }
 });
 
