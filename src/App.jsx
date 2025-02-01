@@ -6,6 +6,7 @@ import Header from './components/header/header.component';
 import Footer from './components/footer/footer.component';
 import Spinner from './components/spinner/spinner.component';
 import ErrorBoundary from './components/error-boundary/error-boundary.component';
+import ProtectedRoute from './components/protected-route/protected-route.component';
 
 import { GlobalStyle } from './global.styles';
 
@@ -38,7 +39,15 @@ const App = () => {
             <Route exact path="/" element={<HomePage />} />
             <Route path='/shop/*' element={<ShopPage />} />
             <Route path='/contact' element={<ContactPage />} />
-            <Route exact path='/checkout' element={<CheckoutPage />} />
+            <Route 
+              exact 
+              path='/checkout' 
+              element={
+                <ProtectedRoute>
+                  <CheckoutPage />
+                </ProtectedRoute>
+              } 
+            />
             <Route 
               exact 
               path='/signin' 
