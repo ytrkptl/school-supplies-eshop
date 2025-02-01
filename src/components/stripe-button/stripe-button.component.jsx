@@ -1,43 +1,52 @@
-import React from 'react';
-import StripeCheckout from 'react-stripe-checkout';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LogoSmall from '../../assets/Shop13.png';
 
 const StripeCheckoutButton = ({ price }) => {
+	const [message, setMessage] = useState('');
 	const priceForStripe = price * 100;
-	const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 
-	const onToken = token => {
+	useEffect(() => {
+		// Check to see if this is a redirect back from Checkout
+		const query = new URLSearchParams(window.location.search);
+
+		if (query.get("success")) {
+			setMessage("Order placed! You will receive an email confirmation.");
+		}
+
+		if (query.get("canceled")) {
+			setMessage(
+				"Order canceled -- continue to shop around and checkout when you're ready."
+			);
+		}
+	}, []);
+
+	const handleSubmit = e => {
+		e.preventDefault();
 		axios({
-			url: 'payment',
-			method: 'post',
+			url: '.netlify/functions/create-checkout-session',
+			method: 'POST',
 			data: {
 				amount: priceForStripe,
-				token
 			}
 		}).then(response => {
-			alert('Payment successful')
+			console.log(response)
+			if (response.data.url) {
+				window.location.href = response.data.url;
+			}
 		}).catch(error => {
-			console.log('Payment error: ', JSON.parse(error));
-			alert(
-				'There was an issue with your payment. Please make sure you use the provided credit card.'
-			)
+			console.error('Payment Error:', error);
+			// alert('There was an issue with your payment. Please make sure you use the provided credit card.');
 		})
 	};
 	
 	return (
-		<StripeCheckout
-			label='Pay Now'
-			name='Shop Tunnel Inc.'
-			billingAddress
-			ShippingAddress
-			image={LogoSmall}
-			description={`Your total is $${price}`}
-			amount = {priceForStripe}
-			panelLabel='Pay Now'
-			token={onToken}
-			stripeKey={publishableKey}
-		/>
+		<div>
+			{message ? (
+				<div className="payment-message">{message}</div>
+			) : (
+				<button onClick={handleSubmit}>Pay</button>
+			)}
+		</div>
 	);
 };
 
