@@ -13,7 +13,8 @@
     "firebase-dev": "firebase emulators:start --project school-supplies-store-3834d",
     "preseed-production": "firebase deploy --only firestore:rules --config firestore.seed.rules.json",
     "seed-production": "node src/db/seeds/seed-firestore.js",
-    "postseed-production": "firebase deploy --only firestore:rules --config firestore.rules.json"
+    "postseed-production": "firebase deploy --only firestore:rules --config firestore.rules.json",
+    "kill-ports": "npx kill-port 8080 9099 4000 5173 8888"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
