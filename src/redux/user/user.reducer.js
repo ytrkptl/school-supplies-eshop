@@ -9,6 +9,7 @@ import {
   signOutFromFirebase
 } from '@/utils/firebase/firebase.utils';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { fetchCart, clearOnlineCart, syncWithFirebase } from '../online-cart/online-cart.slice';
 
 // Helper function to get user snapshot
 const getUserSnapshot = async (userAuth, additionalData) => {
@@ -33,11 +34,35 @@ export const checkUserSession = createAsyncThunk(
 
 export const googleSignInStart = createAsyncThunk(
   'user/googleSignIn',
-  async (_, { rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue, getState }) => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      return await getUserSnapshot(result.user);
+      const { user } = await signInWithPopup(auth, googleProvider);
+      
+      // Create or get user profile document
+      const userRef = await createUserProfileDocument(user);
+      const userSnapshot = await getDoc(userRef);
+      const userProfile = { id: userSnapshot.id, ...userSnapshot.data() };
+
+      // Get the current bag items
+      const { bag } = getState();
+      const { localBag } = bag;
+
+      // If there are items in the local bag, sync them first
+      if (localBag.length > 0) {
+        await dispatch(syncWithFirebase({ 
+          userId: userProfile.id, 
+          bagItems: localBag 
+        })).unwrap();
+        // Clear local bag after successful sync
+        dispatch(clearLocalBag());
+      } else {
+        // Otherwise, just fetch any existing online cart
+        await dispatch(fetchCart(userProfile.id));
+      }
+      
+      return userProfile;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error.message);
     }
   }
@@ -45,10 +70,31 @@ export const googleSignInStart = createAsyncThunk(
 
 export const emailSignInStart = createAsyncThunk(
   'user/emailSignIn',
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password }, { dispatch, rejectWithValue, getState }) => {
     try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      return await getUserSnapshot(result.user);
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      const userSnapshot = await getUserSnapshot(user);
+      const userProfile = {
+        id: userSnapshot.id,  // This is the document ID (uid)
+        ...userSnapshot.data()
+      };
+      // Get current bag items
+      const { bag } = getState();
+      const { localBag } = bag;
+
+      // If there are items in the local bag, sync them first
+      if (localBag.length > 0) {
+        await dispatch(syncWithFirebase({ 
+          userId: userSnapshot.id, 
+          bagItems: localBag 
+        })).unwrap();
+        // Clear local bag after successful sync
+        dispatch(clearLocalBag());
+      } else {
+        // Otherwise, just fetch any existing online cart
+        await dispatch(fetchCart(userSnapshot.id));
+      }
+      return userSnapshot;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -59,10 +105,16 @@ export const signUpStart = createAsyncThunk(
   'user/signUp',
   async ({ email, password, displayName }, { dispatch, rejectWithValue }) => {
     try {
-      const user = await signUpWithCredentialsWrapper(email, password, displayName);
-      const userSnapshot = await getUserSnapshot(user, { displayName });
+      // First create the user with email and password
+      const signUpData = await signUpWithCredentialsWrapper(email, password);
+      // Then create the user profile document
+      await createUserProfileDocument(signUpData, { displayName, id: signUpData.uid });
+      
+      // Finally, get the user snapshot and return it
+      const userSnapshot = await getUserSnapshot(signUpData, { displayName });
       return userSnapshot;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error.message);
     }
   }
@@ -70,9 +122,11 @@ export const signUpStart = createAsyncThunk(
 
 export const signOutStart = createAsyncThunk(
   'user/signOut',
-  async (_, { rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       await signOutFromFirebase();
+      // Clear online cart on sign out
+      dispatch(clearOnlineCart());
       return null;
     } catch (error) {
       return rejectWithValue(error.message);

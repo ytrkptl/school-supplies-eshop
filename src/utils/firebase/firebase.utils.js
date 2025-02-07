@@ -100,14 +100,14 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     console.error("Error creating user");
   } else {
     //console.log(userAuth);
-    const { displayName, email, id } = userAuth;
+    const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
       await setDoc(userRef, {
         displayName,
         email,
         createdAt,
-        id,
+        id: userAuth.uid,
         ...additionalData
       });
     } catch (error) {
