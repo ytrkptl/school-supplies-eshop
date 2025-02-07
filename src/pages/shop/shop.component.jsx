@@ -13,8 +13,6 @@ const ShopPage = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  console.log(currentPath);
-
   useEffect(() => {
     dispatch(fetchCollectionsAsync());
   }, [dispatch]);

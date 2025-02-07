@@ -1,20 +1,21 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { toggleCartHidden } from '../../redux/cart/cart.reducer';
-import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
+import { toggleBagHidden } from '../../redux/bag/bag.reducer';
+// import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
 
 import {
   CartContainer,
   ShoppingIcon,
   ItemCountContainer
 } from './cart-icon.styles';
+import { selectBagItemsCount } from '../../redux/bag/bag.selectors';
 
 const CartIcon = () => {
-  const itemCount = useSelector(selectCartItemsCount);
+  const itemCount = useSelector(selectBagItemsCount);
   const dispatch = useDispatch();
 
-  const handleToggleCart = () => dispatch(toggleCartHidden());
+  const handleToggleCart = () => dispatch(toggleBagHidden());
 
   return (
     <CartContainer onClick={handleToggleCart}>

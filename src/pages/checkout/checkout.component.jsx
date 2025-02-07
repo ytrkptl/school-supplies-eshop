@@ -5,9 +5,9 @@ import CheckoutItem from '../../components/checkout-item/checkout-item.component
 import StripeCheckoutButton from '@/components/stripe-button/stripe-button.component';
 
 import {
-  selectCartItems,
-  selectCartTotal
-} from '../../redux/cart/cart.selectors';
+  selectBagItems,
+  selectBagTotal
+} from '../../redux/bag/bag.selectors';
 
 import {
   CheckoutPageContainer,
@@ -21,8 +21,9 @@ import {
 } from './checkout.styles';
 
 const CheckoutPage = () => {
-  const cartItems = useSelector(selectCartItems);
-  const total = useSelector(selectCartTotal);
+  // const cartItems = useSelector(selectCartItems);
+  const bagItems = useSelector(selectBagItems);
+  const total = useSelector(selectBagTotal);
 
   return (
     <CheckoutPageContainer>
@@ -37,12 +38,12 @@ const CheckoutPage = () => {
           </HeaderRow>
         </CheckoutHeader>
         <CheckoutBody>
-          {cartItems.map(cartItem => (
-            <CheckoutItem key={cartItem.id} cartItem={cartItem} />
+          {bagItems.map(bagItem => (
+            <CheckoutItem key={bagItem.id} bagItem={bagItem} />
           ))}
         </CheckoutBody>
       </CheckoutTable>
-      <TotalContainer>TOTAL: ${total}</TotalContainer>
+      <TotalContainer>TOTAL: ${total.toFixed(2)}</TotalContainer>
       <WarningContainer>
         *Please use the following test credit card for payments*
         <br />

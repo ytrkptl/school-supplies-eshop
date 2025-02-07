@@ -1,12 +1,6 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-
-import {
-  clearItemFromCart,
-  addItem,
-  removeItem
-} from '@/redux/cart/cart.reducer';
-
+import useBagOperations from '../bag-operations/bag-operations.component';
+// import useCartOperations from '../cart-operations/cart-operations.component';
 import useWindowSize from '../../hooks/useWindowSize';
 
 import {
@@ -19,26 +13,22 @@ import {
   MobileRowContainer
 } from './checkout-item.styles';
 
-const CheckoutItem = ({ cartItem }) => {
-  const dispatch = useDispatch();
-  const { name, imageUrl, price, quantity } = cartItem;
+const CheckoutItem = ({ bagItem }) => {
+  const { clearItemFromBag, addItem, removeItem } = useBagOperations();
+  const { name, imageUrl, price, quantity } = bagItem;
   const { width } = useWindowSize();
   const isMobile = width <= 600;
 
-  const handleClearItem = () => dispatch(clearItemFromCart(cartItem));
-  const handleAddItem = () => dispatch(addItem(cartItem));
-  const handleRemoveItem = () => dispatch(removeItem(cartItem));
-
   const QuantityControls = () => (
     <QuantityContainer>
-      <div onClick={handleRemoveItem}>&#10094;</div>
+      <div onClick={() => removeItem(bagItem)}>&#10094;</div>
       <span>{quantity}</span>
-      <div onClick={handleAddItem}>&#10095;</div>
+      <div onClick={() => addItem(bagItem)}>&#10095;</div>
     </QuantityContainer>
   );
 
   const RemoveButton = ({ className }) => (
-    <RemoveButtonContainer onClick={handleClearItem} className={className}>
+    <RemoveButtonContainer onClick={() => clearItemFromBag(bagItem)} className={className}>
       &#10005;
     </RemoveButtonContainer>
   );
@@ -79,7 +69,7 @@ const CheckoutItem = ({ cartItem }) => {
       <TextContainer data-label="Price">
         ${price}
       </TextContainer>
-      <RemoveButtonContainer onClick={handleClearItem} className="desktop-only">
+      <RemoveButtonContainer onClick={() => clearItemFromBag(bagItem)} className="desktop-only">
         &#10005;
       </RemoveButtonContainer>
     </CheckoutItemContainer>

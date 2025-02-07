@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import CartItem from '../cart-item/cart-item.component';
-import { selectCartItems } from '../../redux/cart/cart.selectors';
-import { toggleCartHidden } from '../../redux/cart/cart.reducer';
+import { selectBagItems } from '../../redux/bag/bag.selectors';
+import { toggleBagHidden } from '../../redux/bag/bag.reducer';
 
 import {
   CartDropdownContainer,
@@ -14,13 +14,13 @@ import {
 } from './cart-dropdown.styles';
 
 const CartDropdown = () => {
-  const cartItems = useSelector(selectCartItems);
+  const cartItems = useSelector(selectBagItems);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const goToCheckout = () => {
     navigate('/checkout');
-    dispatch(toggleCartHidden());
+    dispatch(toggleBagHidden());
   };
 
   return (
