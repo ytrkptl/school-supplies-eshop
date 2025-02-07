@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { selectCurrentUser } from '@/redux/user/user.selectors';
+import {
+	PaymentMessageContainer,
+	SignInLink,
+	PayButton
+} from './stripe-button.styles';
 
 const StripeCheckoutButton = ({ price }) => {
 	const [message, setMessage] = useState('');
@@ -45,15 +50,25 @@ const StripeCheckoutButton = ({ price }) => {
 	return (
 		<div>
 			{message ? (
-				<div className="payment-message">{message}</div>
+				<PaymentMessageContainer>{message}</PaymentMessageContainer>
 			) : (
 				<>
 					{currentUser && price > 0 ? (
-						<button onClick={handleSubmit}>Pay</button>
+						<PayButton onClick={handleSubmit}>Pay Now</PayButton>
 					) : (
-						<div className="payment-message">
-							{!currentUser ? 'Please sign in to checkout' : 'Your cart is empty'}
-						</div>
+						<PaymentMessageContainer>
+							{!currentUser ? (
+								<>
+									Ready to complete your purchase? 
+									<br />
+									<SignInLink to="/signin">
+										Sign in to checkout
+									</SignInLink>
+								</>
+							) : (
+								'Your bag is empty'
+							)}
+						</PaymentMessageContainer>
 					)}
 				</>
 			)}
