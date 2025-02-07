@@ -1,6 +1,5 @@
 import React from 'react';
-import { useBagOperations } from '../bag-operations/bag-operations.component';
-
+import useBagOperations from '../bag-operations/bag-operations.component';
 import {
   CollectionItemContainer,
   CollectionFooterContainer,
