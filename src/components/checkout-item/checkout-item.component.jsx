@@ -1,7 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { clearItemFromCart, addItem, removeItem } from '../../redux/cart/cart.reducer';
-import useWindowSize from '../../hooks/useWindowSize';
+import { useDispatch } from "react-redux";
+import { clearItemFromCart, addItem, removeItem } from "../../redux/cart/cart.reducer";
+import useWindowSize from "../../hooks/useWindowSize";
 
 import {
   CheckoutItemContainer,
@@ -11,7 +10,7 @@ import {
   QuantityContainer,
   RemoveButtonContainer,
   MobileRowContainer
-} from './checkout-item.styles';
+} from "./checkout-item.styles";
 
 const CheckoutItem = ({ cartItem }) => {
   const dispatch = useDispatch();
@@ -32,7 +31,9 @@ const CheckoutItem = ({ cartItem }) => {
   );
 
   const RemoveButton = ({ className }) => (
-    <RemoveButtonContainer onClick={handleClearItem} className={className}>
+    <RemoveButtonContainer
+      onClick={handleClearItem}
+      className={className}>
       &#10005;
     </RemoveButtonContainer>
   );
@@ -42,19 +43,18 @@ const CheckoutItem = ({ cartItem }) => {
       <CheckoutItemContainer>
         <MobileRowContainer>
           <ImageContainer>
-            <img src={imageUrl} alt='item' />
+            <img
+              src={imageUrl}
+              alt="item"
+            />
           </ImageContainer>
           <QuantityControlsContainer>
             <QuantityControls />
             <RemoveButton />
           </QuantityControlsContainer>
         </MobileRowContainer>
-        <TextContainer data-label="Description">
-          {name}
-        </TextContainer>
-        <TextContainer data-label="Price">
-          ${price}
-        </TextContainer>
+        <TextContainer data-label="Description">{name}</TextContainer>
+        <TextContainer data-label="Price">${price}</TextContainer>
       </CheckoutItemContainer>
     );
   }
@@ -62,18 +62,19 @@ const CheckoutItem = ({ cartItem }) => {
   return (
     <CheckoutItemContainer>
       <ImageContainer>
-        <img src={imageUrl} alt='item' />
+        <img
+          src={imageUrl}
+          alt="item"
+        />
       </ImageContainer>
-      <TextContainer data-label="Description">
-        {name}
-      </TextContainer>
+      <TextContainer data-label="Description">{name}</TextContainer>
       <QuantityControlsContainer data-label="Quantity">
         <QuantityControls />
       </QuantityControlsContainer>
-      <TextContainer data-label="Price">
-        ${price}
-      </TextContainer>
-      <RemoveButtonContainer onClick={handleClearItem} className="desktop-only">
+      <TextContainer data-label="Price">${price}</TextContainer>
+      <RemoveButtonContainer
+        onClick={handleClearItem}
+        className="desktop-only">
         &#10005;
       </RemoveButtonContainer>
     </CheckoutItemContainer>

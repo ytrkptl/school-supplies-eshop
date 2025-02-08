@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 
 dotenv.config();
 
-export const handler = async (event, context) => {
+export const handler = async (event) => {
   // Only allow POST
   if (event.httpMethod !== 'POST') {
     return {

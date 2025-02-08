@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import "dotenv/config";
 import { initializeApp } from "firebase/app";
 import { getFirestore, writeBatch, collection, doc, getDoc } from "firebase/firestore";
 import { products } from "../../../data/products_data_reorganized.js";
@@ -27,22 +27,22 @@ export const seedCollections = async () => {
     const firestore = getFirestore(app);
 
     // Create a batch write
-    console.log('Preparing to seed collections...');
+    console.log("Preparing to seed collections...");
     const batch = writeBatch(firestore);
-    const collectionsRef = collection(firestore, 'collections');
-    
+    const collectionsRef = collection(firestore, "collections");
+
     let needsSeeding = false;
-    
+
     for (const collection of products) {
-      const routeName = collection.title.toLowerCase().replace(/\s/g, '-');
+      const routeName = collection.title.toLowerCase().replace(/\s/g, "-");
       const docRef = doc(collectionsRef, routeName);
       const docSnap = await getDoc(docRef);
-      
+
       if (!docSnap.exists()) {
         needsSeeding = true;
-        const cleanedItems = collection.items.map(item => cleanItem(item));
+        const cleanedItems = collection.items.map((item) => cleanItem(item));
         console.log(`Preparing collection: ${collection.title}`);
-        
+
         batch.set(docRef, {
           title: collection.title,
           routeName: routeName,
@@ -57,16 +57,16 @@ export const seedCollections = async () => {
     }
 
     if (needsSeeding) {
-      console.log('Committing changes to Firestore...');
+      console.log("Committing changes to Firestore...");
       await batch.commit();
-      console.log('✅ Collections successfully seeded');
+      console.log("✅ Collections successfully seeded");
     } else {
-      console.log('All collections already exist, no seeding needed');
+      console.log("All collections already exist, no seeding needed");
     }
 
     process.exit(0);
   } catch (error) {
-    console.error('Error seeding collections:', error);
+    console.error("Error seeding collections:", error);
     process.exit(1);
   }
 };

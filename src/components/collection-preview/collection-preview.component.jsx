@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Slider from "react-slick";
-import CollectionItem from '../collection-item/collection-item.component';
+import CollectionItem from "../collection-item/collection-item.component";
 
-import {
-  CollectionPreviewContainer,
-  TitleContainer,
-  NextArrow,
-  PrevArrow
-} from './collection-preview.styles';
+import { CollectionPreviewContainer, TitleContainer, NextArrow, PrevArrow } from "./collection-preview.styles";
 
 const getVisibleSlides = () => {
   if (window.innerWidth <= 480) return 1;
@@ -45,8 +40,8 @@ const CollectionPreview = ({ title, items, routeName }) => {
       setSlidesToShow(getVisibleSlides());
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleTitleClick = () => {
@@ -88,12 +83,13 @@ const CollectionPreview = ({ title, items, routeName }) => {
 
   return (
     <CollectionPreviewContainer>
-      <TitleContainer onClick={handleTitleClick}>
-        {title.toUpperCase()}
-      </TitleContainer>
+      <TitleContainer onClick={handleTitleClick}>{title.toUpperCase()}</TitleContainer>
       <Slider {...settings}>
-        {items.map(item => (
-          <CollectionItem key={item.id} item={item} />
+        {items.map((item) => (
+          <CollectionItem
+            key={item.id}
+            item={item}
+          />
         ))}
       </Slider>
     </CollectionPreviewContainer>

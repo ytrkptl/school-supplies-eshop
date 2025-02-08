@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { addItemToCart, removeItemFromCart } from './cart.utils';
+import { createSlice } from "@reduxjs/toolkit";
+import { addItemToCart, removeItemFromCart } from "./cart.utils";
 
 const initialState = {
   hidden: true,
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
     toggleCartHidden: (state) => {
@@ -20,9 +20,7 @@ const cartSlice = createSlice({
       state.cartItems = removeItemFromCart(state.cartItems, action.payload);
     },
     clearItemFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter(
-        cartItem => cartItem.id !== action.payload.id
-      );
+      state.cartItems = state.cartItems.filter((cartItem) => cartItem.id !== action.payload.id);
     },
     clearCart(state) {
       state.cartItems = [];
@@ -30,12 +28,6 @@ const cartSlice = createSlice({
   }
 });
 
-export const {
-  toggleCartHidden,
-  addItem,
-  removeItem,
-  clearItemFromCart,
-  clearCart
-} = cartSlice.actions;
+export const { toggleCartHidden, addItem, removeItem, clearItemFromCart, clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

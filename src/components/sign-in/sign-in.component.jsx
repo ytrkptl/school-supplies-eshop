@@ -1,42 +1,35 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import FormInput from '../form-input/form-input.component';
-import CustomButton from '../custom-button/custom-button.component';
+import FormInput from "../form-input/form-input.component";
+import CustomButton from "../custom-button/custom-button.component";
 
-import {
-  googleSignInStart,
-  emailSignInStart
-} from '@/redux/user/user.reducer';
+import { googleSignInStart, emailSignInStart } from "@/redux/user/user.reducer";
 
-import {
-  SignInContainer,
-  SignInTitle,
-  ButtonsBarContainer
-} from './sign-in.styles';
-import { useNavigate } from 'react-router-dom';
+import { SignInContainer, SignInTitle, ButtonsBarContainer } from "./sign-in.styles";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const [userCredentials, setCredentials] = useState({ email: '', password: '' });
+  const [userCredentials, setCredentials] = useState({ email: "", password: "" });
 
   const { email, password } = userCredentials;
 
   const navigate = useNavigate();
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       await dispatch(emailSignInStart({ email, password })).unwrap();
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      alert(error.message || 'Failed to sign in. Please try again.');
+      alert(error.message || "Failed to sign in. Please try again.");
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { value, name } = event.target;
-    setCredentials({...userCredentials, [name]: value });
+    setCredentials({ ...userCredentials, [name]: value });
   };
 
   const handleGoogleSignIn = () => {
@@ -50,24 +43,27 @@ const SignIn = () => {
 
       <form onSubmit={handleSubmit}>
         <FormInput
-          name='email'
-          type='email'
+          name="email"
+          type="email"
           handleChange={handleChange}
           value={email}
-          label='Email'
+          label="Email"
           required
         />
         <FormInput
-          name='password'
-          type='password'
+          name="password"
+          type="password"
           value={password}
           handleChange={handleChange}
-          label='Password'
+          label="Password"
           required
         />
         <ButtonsBarContainer>
-          <CustomButton type='submit'> Sign in </CustomButton>
-          <CustomButton type='button' onClick={handleGoogleSignIn} isGoogleSignIn>
+          <CustomButton type="submit"> Sign in </CustomButton>
+          <CustomButton
+            type="button"
+            onClick={handleGoogleSignIn}
+            isGoogleSignIn>
             Sign in with Google
           </CustomButton>
         </ButtonsBarContainer>

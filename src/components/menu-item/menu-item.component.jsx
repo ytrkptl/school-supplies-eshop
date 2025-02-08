@@ -1,5 +1,4 @@
-import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
   MenuItemContainer,
@@ -7,7 +6,7 @@ import {
   ContentContainer,
   ContentTitle,
   ContentSubtitle
-} from './menu-item.styles';
+} from "./menu-item.styles";
 
 const MenuItem = ({ title, imageUrl, size, linkUrl }) => {
   const navigate = useNavigate();
@@ -20,13 +19,12 @@ const MenuItem = ({ title, imageUrl, size, linkUrl }) => {
   return (
     <MenuItemContainer
       $size={size}
-      onClick={handleClick}
-    >
+      onClick={handleClick}>
       <BackgroundImageContainer
-        className='background-image'
+        className="background-image"
         $imageUrl={imageUrl}
       />
-      <ContentContainer className='content'>
+      <ContentContainer className="content">
         <ContentTitle>{title.toUpperCase()}</ContentTitle>
         <ContentSubtitle>SHOP NOW</ContentSubtitle>
       </ContentContainer>

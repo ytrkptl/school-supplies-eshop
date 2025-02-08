@@ -1,23 +1,17 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { 
-  firestore, 
-  convertCollectionsSnapshotToMap 
-} from '@/utils/firebase/firebase.utils';
-import { collection, getDocs } from 'firebase/firestore';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { firestore, convertCollectionsSnapshotToMap } from "@/utils/firebase/firebase.utils";
+import { collection, getDocs } from "firebase/firestore";
 
-export const fetchCollectionsAsync = createAsyncThunk(
-  'shop/fetchCollections',
-  async (_, { rejectWithValue }) => {
-    try {
-      const collectionRef = collection(firestore, 'collections');
-      const snapshot = await getDocs(collectionRef);
-      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-      return collectionsMap;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
+export const fetchCollectionsAsync = createAsyncThunk("shop/fetchCollections", async (_, { rejectWithValue }) => {
+  try {
+    const collectionRef = collection(firestore, "collections");
+    const snapshot = await getDocs(collectionRef);
+    const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+    return collectionsMap;
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
-);
+});
 
 const initialState = {
   collections: null,
@@ -26,7 +20,7 @@ const initialState = {
 };
 
 const shopSlice = createSlice({
-  name: 'shop',
+  name: "shop",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

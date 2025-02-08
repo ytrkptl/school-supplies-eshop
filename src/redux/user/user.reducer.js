@@ -1,14 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getDoc } from 'firebase/firestore';
-import { 
-  auth, 
-  googleProvider, 
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getDoc } from "firebase/firestore";
+import {
+  auth,
+  googleProvider,
   createUserProfileDocument,
   getCurrentUser,
   signUpWithCredentialsWrapper,
   signOutFromFirebase
-} from '@/utils/firebase/firebase.utils';
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+} from "@/utils/firebase/firebase.utils";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 // Helper function to get user snapshot
 const getUserSnapshot = async (userAuth, additionalData) => {
@@ -18,40 +18,34 @@ const getUserSnapshot = async (userAuth, additionalData) => {
 };
 
 // Async thunks
-export const checkUserSession = createAsyncThunk(
-  'user/checkSession',
-  async (_, { rejectWithValue }) => {
-    try {
-      const userAuth = await getCurrentUser();
-      if (!userAuth) return null;
-      return await getUserSnapshot(userAuth);
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
+export const checkUserSession = createAsyncThunk("user/checkSession", async (_, { rejectWithValue }) => {
+  try {
+    const userAuth = await getCurrentUser();
+    if (!userAuth) return null;
+    return await getUserSnapshot(userAuth);
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
-);
+});
 
-export const googleSignInStart = createAsyncThunk(
-  'user/googleSignIn',
-  async (_, { dispatch, rejectWithValue }) => {
-    try {
-      const { user } = await signInWithPopup(auth, googleProvider);
-      
-      // Create or get user profile document
-      const userRef = await createUserProfileDocument(user);
-      const userSnapshot = await getDoc(userRef);
-      const userProfile = { id: userSnapshot.id, ...userSnapshot.data() };
+export const googleSignInStart = createAsyncThunk("user/googleSignIn", async (_, { rejectWithValue }) => {
+  try {
+    const { user } = await signInWithPopup(auth, googleProvider);
 
-      return userProfile;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
+    // Create or get user profile document
+    const userRef = await createUserProfileDocument(user);
+    const userSnapshot = await getDoc(userRef);
+    const userProfile = { id: userSnapshot.id, ...userSnapshot.data() };
+
+    return userProfile;
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
-);
+});
 
 export const emailSignInStart = createAsyncThunk(
-  'user/emailSignIn',
-  async ({ email, password }, { dispatch, rejectWithValue }) => {
+  "user/emailSignIn",
+  async ({ email, password }, { rejectWithValue }) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
       const userSnapshot = await getUserSnapshot(user);
@@ -63,14 +57,14 @@ export const emailSignInStart = createAsyncThunk(
 );
 
 export const signUpStart = createAsyncThunk(
-  'user/signUp',
-  async ({ email, password, displayName }, { dispatch, rejectWithValue }) => {
+  "user/signUp",
+  async ({ email, password, displayName }, { rejectWithValue }) => {
     try {
       // First create the user with email and password
       const signUpData = await signUpWithCredentialsWrapper(email, password);
       // Then create the user profile document
       await createUserProfileDocument(signUpData, { displayName, id: signUpData.uid });
-      
+
       // Finally, get the user snapshot and return it
       const userSnapshot = await getUserSnapshot(signUpData, { displayName });
       return userSnapshot;
@@ -80,17 +74,14 @@ export const signUpStart = createAsyncThunk(
   }
 );
 
-export const signOutStart = createAsyncThunk(
-  'user/signOut',
-  async (_, { dispatch, rejectWithValue }) => {
-    try {
-      await signOutFromFirebase();
-      return null;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
+export const signOutStart = createAsyncThunk("user/signOut", async (_, { rejectWithValue }) => {
+  try {
+    await signOutFromFirebase();
+    return null;
+  } catch (error) {
+    return rejectWithValue(error.message);
   }
-);
+});
 
 const initialState = {
   currentUser: null,
@@ -99,7 +90,7 @@ const initialState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {

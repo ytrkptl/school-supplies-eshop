@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CheckoutPageContainer = styled.div`
   width: 55%;
@@ -7,7 +7,7 @@ export const CheckoutPageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 50px auto 0;
-  
+
   button {
     margin-left: auto;
     margin-right: auto;
@@ -27,7 +27,7 @@ export const CheckoutTable = styled.table`
 
   @media screen and (max-width: 600px) {
     display: block;
-    
+
     thead {
       display: none;
     }
@@ -63,7 +63,7 @@ export const CheckoutTable = styled.table`
 
       &.image-cell {
         justify-content: center;
-        
+
         &:before {
           display: none;
         }
@@ -75,7 +75,7 @@ export const CheckoutTable = styled.table`
 
       &.remove-cell {
         justify-content: flex-end;
-        
+
         &:before {
           display: none;
         }

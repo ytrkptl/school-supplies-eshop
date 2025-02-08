@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { clearCart } from '../../redux/cart/cart.reducer';
-import {
-  PaymentStatusContainer,
-  StatusIcon,
-  StatusTitle,
-  StatusMessage,
-  BackButton
-} from './payment-status.styles';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../redux/cart/cart.reducer";
+import { PaymentStatusContainer, StatusIcon, StatusTitle, StatusMessage, BackButton } from "./payment-status.styles";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
@@ -23,12 +17,8 @@ const PaymentSuccess = () => {
     <PaymentStatusContainer>
       <StatusIcon>✓</StatusIcon>
       <StatusTitle>Payment Successful!</StatusTitle>
-      <StatusMessage>
-        Thank you for your purchase. Your order has been processed successfully.
-      </StatusMessage>
-      <BackButton onClick={() => navigate('/shop')}>
-        Continue Shopping
-      </BackButton>
+      <StatusMessage>Thank you for your purchase. Your order has been processed successfully.</StatusMessage>
+      <BackButton onClick={() => navigate("/shop")}>Continue Shopping</BackButton>
     </PaymentStatusContainer>
   );
 };

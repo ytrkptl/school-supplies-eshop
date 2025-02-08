@@ -3,7 +3,6 @@ import {
   connectAuthEmulator,
   createUserWithEmailAndPassword,
   getAuth,
-  sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
   setPersistence,
@@ -13,34 +12,33 @@ import {
   signInAnonymously,
   onAuthStateChanged
 } from "firebase/auth";
-import { 
-  addDoc, 
-  collection, 
-  connectFirestoreEmulator, 
-  doc, 
-  getDoc, 
-  getFirestore, 
-  setDoc, 
-  writeBatch, 
+import {
+  collection,
+  connectFirestoreEmulator,
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  writeBatch,
   getDocs,
   query,
-  where 
+  where
 } from "firebase/firestore";
 
-// In the upcoming lessons, we will adding firebase to our 
-// React application. One thing to note, is that we will be 
-// adding a config object that we get from firebase into our 
-// files, and in that config object is an API key. Typically 
-// it is good practice not to expose your API key publicly, 
-// but in the case of firebase, we have to do so because 
-// this is how firebase knows the application is ours! This 
-// is perfectly safe, and the intended purpose of this public 
-// API key. If you commit your code to Github, you may get a 
-// warning from GitGuardian having caught a google key, but 
+// In the upcoming lessons, we will adding firebase to our
+// React application. One thing to note, is that we will be
+// adding a config object that we get from firebase into our
+// files, and in that config object is an API key. Typically
+// it is good practice not to expose your API key publicly,
+// but in the case of firebase, we have to do so because
+// this is how firebase knows the application is ours! This
+// is perfectly safe, and the intended purpose of this public
+// API key. If you commit your code to Github, you may get a
+// warning from GitGuardian having caught a google key, but
 // GitGuardian has acknowledged that this is not an issue here!
 
 // How we do secure out data is actually done with security rules
-//  in the firebase dashboard, but we will cover that in a later 
+//  in the firebase dashboard, but we will cover that in a later
 //  lesson! So please continue the course without worry :)
 
 const firebaseConfig = {
@@ -72,20 +70,20 @@ function startEmulators() {
   try {
     connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
     connectFirestoreEmulator(firestore, "localhost", 8080);
-    console.log('🔥 Connected to Firebase emulators');
+    console.log("🔥 Connected to Firebase emulators");
   } catch (error) {
-    console.error('Error connecting to emulators:', error);
+    console.error("Error connecting to emulators:", error);
   }
 }
 
 // Start emulators in development mode
-if (import.meta.env.MODE === 'development') {
+if (import.meta.env.MODE === "development") {
   startEmulators();
 }
 
 // Initialize persistence after emulator setup
 setPersistence(auth, browserLocalPersistence).catch((error) => {
-  //console.error("Error setting local persistence:", error);
+  console.error("Error setting local persistence:", error);
 });
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -111,7 +109,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         ...additionalData
       });
     } catch (error) {
-      //console.log('error creating user', error.message);
+      console.log("error creating user", error.message);
       throw new Error("Something went wrong. Please try again or contact support.");
     }
   }
@@ -119,12 +117,12 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
-export const getUserCartRef = async userId => {
-  const cartsRef = query(collection(firestore, 'carts'), where('userId', '==', userId));
+export const getUserCartRef = async (userId) => {
+  const cartsRef = query(collection(firestore, "carts"), where("userId", "==", userId));
   const snapShot = await getDocs(cartsRef);
 
   if (snapShot.empty) {
-    const cartDocRef = doc(collection(firestore, 'carts'));
+    const cartDocRef = doc(collection(firestore, "carts"));
     await setDoc(cartDocRef, { userId, cartItems: [] });
     return cartDocRef;
   } else {
@@ -132,14 +130,11 @@ export const getUserCartRef = async userId => {
   }
 };
 
-export const addCollectionAndDocuments = async (
-  collectionKey,
-  objectsToAdd
-) => {
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
   const collectionRef = collection(firestore, collectionKey);
   const batch = writeBatch(firestore);
 
-  objectsToAdd.forEach(obj => {
+  objectsToAdd.forEach((obj) => {
     const newDocRef = doc(collectionRef);
     batch.set(newDocRef, obj);
   });
@@ -147,11 +142,11 @@ export const addCollectionAndDocuments = async (
   return await batch.commit();
 };
 
-export const convertCollectionsSnapshotToMap = collections => {
-  const transformedArray = collections.docs.map(doc => {
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedArray = collections.docs.map((doc) => {
     const { title, routeName, items } = doc.data();
     return {
-      routeName: routeName || title.toLowerCase().replace(/\s/g, '-'),
+      routeName: routeName || title.toLowerCase().replace(/\s/g, "-"),
       id: doc.id,
       title,
       items
@@ -170,7 +165,7 @@ export const convertCollectionsSnapshotToMap = collections => {
 export const signInWithCredentialsWrapper = async (email, password) => {
   try {
     await setPersistence(auth, browserLocalPersistence);
-    return  await signInWithEmailAndPassword(auth, email, password);
+    return await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
     if (error.message === "Firebase: Error (auth/user-not-found).") {
       throw new Error("The email/password combination is incorrect.");
@@ -195,33 +190,20 @@ export const signUpWithCredentialsWrapper = async (email, password) => {
   }
 };
 
-// Send registration verification email.
-export const sendRegistrationVerificationEmail = async (user) => {
-  try {
-    return await sendEmailVerification(user);
-  } catch (error) {
-    //console.error("Error verifying confirmation code:", error);
-    return false;
-  }
-};
-
 // Sign out from Firebase.
 export const signOutFromFirebase = async () => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    throw error;
-  }
+  return await signOut(auth);
 };
 
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    const unsubscribe = onAuthStateChanged(auth, 
-      userAuth => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
         unsubscribe();
         resolve(userAuth);
-      }, 
-      error => {
+      },
+      (error) => {
         unsubscribe();
         reject(error);
       }
@@ -230,7 +212,7 @@ export const getCurrentUser = () => {
 };
 
 export const googleProvider = new GoogleAuthProvider();
-googleProvider.setCustomParameters({ prompt: 'select_account' });
+googleProvider.setCustomParameters({ prompt: "select_account" });
 export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
 const cleanItem = (item) => {
@@ -240,37 +222,37 @@ const cleanItem = (item) => {
 
 export const checkAndSeedCollections = async () => {
   // Only seed in development
-  if (import.meta.env.MODE !== 'development') {
+  if (import.meta.env.MODE !== "development") {
     return;
   }
 
   try {
     // Import the data directly in development
-    const { products } = (await import('../../../data/products_data_reorganized.js'));
-    const { categoryImagesData } = (await import('../../../data/category_images.js'));
+    const { products } = await import("../../../data/products_data_reorganized.js");
+    const { categoryImagesData } = await import("../../../data/category_images.js");
     // First create a test user if needed for auth rules
     const userAuth = auth.currentUser;
     if (!userAuth) {
-      console.log('No user authenticated, signing in anonymously for seeding...');
+      console.log("No user authenticated, signing in anonymously for seeding...");
       await signInAnonymously(auth);
     }
 
     // Create a batch write
     const batch = writeBatch(firestore);
-    const collectionsRef = collection(firestore, 'collections');
-    
+    const collectionsRef = collection(firestore, "collections");
+
     // Check existing documents and prepare batch
     let needsSeeding = false;
-    
+
     for (const collection of products) {
-      const routeName = collection.title.toLowerCase().replace(/\s/g, '-');
+      const routeName = collection.title.toLowerCase().replace(/\s/g, "-");
       const docRef = doc(collectionsRef, routeName);
       const docSnap = await getDoc(docRef);
-      
+
       if (!docSnap.exists()) {
         needsSeeding = true;
         // Clean the items data
-        const cleanedItems = collection.items.map(item => cleanItem(item));
+        const cleanedItems = collection.items.map((item) => cleanItem(item));
         // console.log(categoryImagesData[collection.title]);
         batch.set(docRef, {
           title: collection.title,
@@ -298,8 +280,8 @@ export const checkAndSeedCollections = async () => {
       await auth.signOut();
     }
   } catch (error) {
-    //console.error('❌ Error seeding collections:', error);
-    throw error;
+    console.error("❌ Error seeding collections:", error);
+    throw new Error(`Failed to seed collections: ${error.message}`);
   }
 };
 

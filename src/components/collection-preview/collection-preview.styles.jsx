@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CollectionPreviewContainer = styled.div`
   display: flex;
@@ -44,7 +44,7 @@ const ArrowButton = styled.button`
   border: none;
   border-radius: 50%;
   background-color: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   z-index: 2;
   display: flex;
@@ -54,7 +54,7 @@ const ArrowButton = styled.button`
 
   &:hover {
     background-color: #f8f8f8;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
   }
 
   &:disabled {
@@ -63,7 +63,7 @@ const ArrowButton = styled.button`
   }
 
   &::before {
-    content: '';
+    content: "";
     width: 16px;
     height: 16px;
     border-style: solid;

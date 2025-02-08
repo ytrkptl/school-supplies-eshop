@@ -1,12 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import CheckoutItem from '../../components/checkout-item/checkout-item.component';
-import StripeCheckoutButton from '@/components/stripe-button/stripe-button.component';
+import { useSelector } from "react-redux";
+import CheckoutItem from "../../components/checkout-item/checkout-item.component";
+import StripeCheckoutButton from "@/components/stripe-button/stripe-button.component";
 
-import {
-  selectCartItems,
-  selectCartTotal
-} from '../../redux/cart/cart.selectors';
+import { selectCartItems, selectCartTotal } from "../../redux/cart/cart.selectors";
 
 import {
   CheckoutPageContainer,
@@ -17,7 +13,7 @@ import {
   CheckoutBody,
   TotalContainer,
   WarningContainer
-} from './checkout.styles';
+} from "./checkout.styles";
 
 const CheckoutPage = () => {
   const cartItems = useSelector(selectCartItems);
@@ -36,8 +32,11 @@ const CheckoutPage = () => {
           </HeaderRow>
         </CheckoutHeader>
         <CheckoutBody>
-          {cartItems.map(cartItem => (
-            <CheckoutItem key={cartItem.id} cartItem={cartItem} />
+          {cartItems.map((cartItem) => (
+            <CheckoutItem
+              key={cartItem.id}
+              cartItem={cartItem}
+            />
           ))}
         </CheckoutBody>
       </CheckoutTable>

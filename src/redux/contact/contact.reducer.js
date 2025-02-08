@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const INITIAL_STATE = {
   isFetching: false,
@@ -7,33 +7,30 @@ const INITIAL_STATE = {
   hasErrored: null
 };
 
-export const sendContactForm = createAsyncThunk(
-  'contact/sendContactForm',
-  async (formData, { rejectWithValue }) => {
-    try {
-      const response = await fetch('.netlify/functions/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        return data;
-      } else {
-        return rejectWithValue(data.message || 'Something went wrong');
-      }
-    } catch (error) {
-      return rejectWithValue(error.message || 'An error occurred');
+export const sendContactForm = createAsyncThunk("contact/sendContactForm", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await fetch(".netlify/functions/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return data;
+    } else {
+      return rejectWithValue(data.message || "Something went wrong");
     }
+  } catch (error) {
+    return rejectWithValue(error.message || "An error occurred");
   }
-);
+});
 
 const contactFormSlice = createSlice({
-  name: 'contact',
+  name: "contact",
   initialState: INITIAL_STATE,
   reducers: {},
   extraReducers: (builder) => {
