@@ -3,7 +3,6 @@ import {
   connectAuthEmulator,
   createUserWithEmailAndPassword,
   getAuth,
-  sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
   setPersistence,
@@ -14,7 +13,6 @@ import {
   onAuthStateChanged
 } from "firebase/auth";
 import { 
-  addDoc, 
   collection, 
   connectFirestoreEmulator, 
   doc, 
@@ -85,7 +83,7 @@ if (import.meta.env.MODE === 'development') {
 
 // Initialize persistence after emulator setup
 setPersistence(auth, browserLocalPersistence).catch((error) => {
-  //console.error("Error setting local persistence:", error);
+  console.error("Error setting local persistence:", error);
 });
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -111,7 +109,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         ...additionalData
       });
     } catch (error) {
-      //console.log('error creating user', error.message);
+      console.log('error creating user', error.message);
       throw new Error("Something went wrong. Please try again or contact support.");
     }
   }
@@ -195,23 +193,9 @@ export const signUpWithCredentialsWrapper = async (email, password) => {
   }
 };
 
-// Send registration verification email.
-export const sendRegistrationVerificationEmail = async (user) => {
-  try {
-    return await sendEmailVerification(user);
-  } catch (error) {
-    //console.error("Error verifying confirmation code:", error);
-    return false;
-  }
-};
-
 // Sign out from Firebase.
 export const signOutFromFirebase = async () => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    throw error;
-  }
+  return await signOut(auth);
 };
 
 export const getCurrentUser = () => {
@@ -298,8 +282,8 @@ export const checkAndSeedCollections = async () => {
       await auth.signOut();
     }
   } catch (error) {
-    //console.error('❌ Error seeding collections:', error);
-    throw error;
+    console.error('❌ Error seeding collections:', error);
+    throw new Error(`Failed to seed collections: ${error.message}`);
   }
 };
 

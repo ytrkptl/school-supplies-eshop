@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCartHidden } from '../../redux/cart/cart.reducer';
 import { selectCartItemsCount } from '../../redux/cart/cart.selectors';

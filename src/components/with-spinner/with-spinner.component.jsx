@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Spinner from '../spinner/spinner.component';
 
 const WithSpinner = ({ isLoading, children }) => {

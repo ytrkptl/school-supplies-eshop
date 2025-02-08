@@ -1,5 +1,5 @@
-import React, { useEffect, lazy, Suspense } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect, lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Spinner from '../../components/spinner/spinner.component';
 
@@ -10,8 +10,6 @@ const CollectionPageContainer = lazy(() => import('../collection/collection.cont
 
 const ShopPage = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const currentPath = location.pathname;
 
   useEffect(() => {
     dispatch(fetchCollectionsAsync());

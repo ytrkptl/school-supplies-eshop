@@ -33,7 +33,7 @@ export const checkUserSession = createAsyncThunk(
 
 export const googleSignInStart = createAsyncThunk(
   'user/googleSignIn',
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const { user } = await signInWithPopup(auth, googleProvider);
       
@@ -51,7 +51,7 @@ export const googleSignInStart = createAsyncThunk(
 
 export const emailSignInStart = createAsyncThunk(
   'user/emailSignIn',
-  async ({ email, password }, { dispatch, rejectWithValue }) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
       const userSnapshot = await getUserSnapshot(user);
@@ -64,7 +64,7 @@ export const emailSignInStart = createAsyncThunk(
 
 export const signUpStart = createAsyncThunk(
   'user/signUp',
-  async ({ email, password, displayName }, { dispatch, rejectWithValue }) => {
+  async ({ email, password, displayName }, { rejectWithValue }) => {
     try {
       // First create the user with email and password
       const signUpData = await signUpWithCredentialsWrapper(email, password);
@@ -82,7 +82,7 @@ export const signUpStart = createAsyncThunk(
 
 export const signOutStart = createAsyncThunk(
   'user/signOut',
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       await signOutFromFirebase();
       return null;

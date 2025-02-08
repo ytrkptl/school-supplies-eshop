@@ -3,7 +3,7 @@ import { persistStore } from 'redux-persist';
 import rootReducer from "@/redux/root-reducer";
 
 // Custom middleware to sanitize or filter actions
-const actionSanitizerMiddleware = (storeAPI) => (next) => (action) => {
+const actionSanitizerMiddleware = () => (next) => (action) => {
   // Ignore Firebase-related actions or any other unwanted actions
   if (action.type.startsWith("@auth")) {
     //console.debug("Filtered out Firebase action:", action);

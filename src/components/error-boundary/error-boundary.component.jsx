@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 
 import {
   ErrorImageOverlay,
@@ -6,7 +6,7 @@ import {
   ErrorImageText
 } from './error-boundary.styles';
 
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends Component {
   constructor() {
     super();
 
@@ -15,11 +15,11 @@ class ErrorBoundary extends React.Component {
     };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasErrored: true };
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error) {
     console.log(error);
   }
 
