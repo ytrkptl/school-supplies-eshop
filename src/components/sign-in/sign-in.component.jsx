@@ -30,7 +30,6 @@ const SignIn = () => {
       await dispatch(emailSignInStart({ email, password })).unwrap();
       navigate('/');
     } catch (error) {
-      console.error('Error signing in:', error);
       alert(error.message || 'Failed to sign in. Please try again.');
     }
   };

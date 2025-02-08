@@ -17,7 +17,7 @@ const CollectionPage = () => {
   const collection = useSelector(state => selectCollection(collectionId)(state));
 
   if (!collection) {
-    console.log('Collection not found');
+    //console.log('Collection not found');
     return null;
   }
 

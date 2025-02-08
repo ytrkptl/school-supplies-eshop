@@ -75,7 +75,6 @@ export const signUpStart = createAsyncThunk(
       const userSnapshot = await getUserSnapshot(signUpData, { displayName });
       return userSnapshot;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.message);
     }
   }

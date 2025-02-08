@@ -85,7 +85,7 @@ if (import.meta.env.MODE === 'development') {
 
 // Initialize persistence after emulator setup
 setPersistence(auth, browserLocalPersistence).catch((error) => {
-  console.error("Error setting local persistence:", error);
+  //console.error("Error setting local persistence:", error);
 });
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -111,7 +111,8 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         ...additionalData
       });
     } catch (error) {
-      console.log('error creating user', error.message);
+      //console.log('error creating user', error.message);
+      throw new Error("Something went wrong. Please try again or contact support.");
     }
   }
 
@@ -199,7 +200,7 @@ export const sendRegistrationVerificationEmail = async (user) => {
   try {
     return await sendEmailVerification(user);
   } catch (error) {
-    console.error("Error verifying confirmation code:", error);
+    //console.error("Error verifying confirmation code:", error);
     return false;
   }
 };
@@ -287,9 +288,9 @@ export const checkAndSeedCollections = async () => {
     // Only commit if we have new documents to add
     if (needsSeeding) {
       await batch.commit();
-      console.log('✅ New collections successfully seeded to development environment');
+      //console.log('✅ New collections successfully seeded to development environment');
     } else {
-      console.log('All collections already exist, no seeding needed');
+      //console.log('All collections already exist, no seeding needed');
     }
 
     // Sign out if we signed in anonymously
@@ -297,7 +298,7 @@ export const checkAndSeedCollections = async () => {
       await auth.signOut();
     }
   } catch (error) {
-    console.error('❌ Error seeding collections:', error);
+    //console.error('❌ Error seeding collections:', error);
     throw error;
   }
 };
