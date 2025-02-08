@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addItemToCart, removeItemFromCart } from './cart.utils';
-import { signOutStart } from '../user/user.reducer';
 
 const initialState = {
   hidden: true,
@@ -28,14 +27,6 @@ const cartSlice = createSlice({
     clearCart(state) {
       state.cartItems = [];
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      // Clear cart when user signs out
-      .addCase(signOutStart.fulfilled, (state) => {
-        state.cartItems = [];
-        state.hidden = true;
-      });
   }
 });
 

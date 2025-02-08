@@ -14,11 +14,11 @@ import {
 } from './cart-dropdown.styles';
 
 const CartDropdown = () => {
-  const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
   const navigate = useNavigate();
 
-  const goToCheckout = () => {
+  const handleGoToCheckout = () => {
     navigate('/checkout');
     dispatch(toggleCartHidden());
   };
@@ -34,7 +34,7 @@ const CartDropdown = () => {
           <EmptyMessageContainer>Your cart is empty</EmptyMessageContainer>
         )}
       </CartItemsContainer>
-      <CartDropdownButton onClick={goToCheckout}>
+      <CartDropdownButton onClick={handleGoToCheckout}>
         GO TO CHECKOUT
       </CartDropdownButton>
     </CartDropdownContainer>

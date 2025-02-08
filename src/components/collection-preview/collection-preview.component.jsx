@@ -16,22 +16,22 @@ const getVisibleSlides = () => {
   return 3;
 };
 
-const CustomNextArrow = ({ onClick, currentSlide, slideCount, ...props }) => {
+const CustomNextArrow = ({ onClick, currentSlide, slideCount, className }) => {
   const visibleSlides = getVisibleSlides();
   return (
     <NextArrow
       onClick={onClick}
+      className={className}
       disabled={currentSlide >= slideCount - visibleSlides}
-      {...props}
     />
   );
 };
 
-const CustomPrevArrow = ({ onClick, currentSlide, ...props }) => (
+const CustomPrevArrow = ({ onClick, currentSlide, className }) => (
   <PrevArrow
     onClick={onClick}
+    className={className}
     disabled={currentSlide === 0}
-    {...props}
   />
 );
 

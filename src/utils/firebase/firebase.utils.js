@@ -10,7 +10,8 @@ import {
   browserLocalPersistence,
   GoogleAuthProvider,
   signInWithPopup,
-  signInAnonymously
+  signInAnonymously,
+  onAuthStateChanged
 } from "firebase/auth";
 import { 
   addDoc, 
@@ -98,6 +99,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (snapShot.exists()) {
     console.error("Error creating user");
   } else {
+    //console.log(userAuth);
     const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
@@ -105,6 +107,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         displayName,
         email,
         createdAt,
+        id: userAuth.uid,
         ...additionalData
       });
     } catch (error) {
@@ -182,6 +185,7 @@ export const signUpWithCredentialsWrapper = async (email, password) => {
     const data = await createUserWithEmailAndPassword(auth, email, password);
     return data.user;
   } catch (error) {
+    //console.log('error creating user', error.message);
     if (error.message === "Firebase: Error (auth/email-already-in-use).") {
       throw new Error("The email/password combination is incorrect.");
     } else {
@@ -211,12 +215,18 @@ export const signOutFromFirebase = async () => {
 
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged(userAuth => {
-      unsubscribe();
-      resolve(userAuth);
-    }, reject)
+    const unsubscribe = onAuthStateChanged(auth, 
+      userAuth => {
+        unsubscribe();
+        resolve(userAuth);
+      }, 
+      error => {
+        unsubscribe();
+        reject(error);
+      }
+    );
   });
-}
+};
 
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
@@ -235,8 +245,8 @@ export const checkAndSeedCollections = async () => {
 
   try {
     // Import the data directly in development
-    const { products } = (await import('../../../documentation/products_data_reorganized.js'));
-    const { categoryImagesData } = (await import('../../../documentation/category_images.js'));
+    const { products } = (await import('../../../data/products_data_reorganized.js'));
+    const { categoryImagesData } = (await import('../../../data/category_images.js'));
     // First create a test user if needed for auth rules
     const userAuth = auth.currentUser;
     if (!userAuth) {

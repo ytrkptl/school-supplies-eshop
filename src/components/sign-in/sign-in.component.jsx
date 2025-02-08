@@ -14,6 +14,7 @@ import {
   SignInTitle,
   ButtonsBarContainer
 } from './sign-in.styles';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -21,9 +22,17 @@ const SignIn = () => {
 
   const { email, password } = userCredentials;
 
+  const navigate = useNavigate();
+
   const handleSubmit = async event => {
     event.preventDefault();
-    dispatch(emailSignInStart({ email, password }));
+    try {
+      await dispatch(emailSignInStart({ email, password })).unwrap();
+      navigate('/');
+    } catch (error) {
+      console.error('Error signing in:', error);
+      alert(error.message || 'Failed to sign in. Please try again.');
+    }
   };
 
   const handleChange = event => {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
@@ -10,6 +11,7 @@ import { SignUpContainer, SignUpTitle } from './sign-up.styles';
 
 const SignUp = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [userCredentials, setUserCredentials] = useState({
     displayName: '',
     email: '',
@@ -27,7 +29,13 @@ const SignUp = () => {
       return;
     }
 
-    dispatch(signUpStart({ displayName, email, password }));
+    try {
+      await dispatch(signUpStart({ displayName, email, password })).unwrap();
+      navigate('/');
+    } catch (error) {
+      console.error('Error signing up:', error);
+      alert(error.message || 'Failed to sign up. Please try again.');
+    }
   };
 
   const handleChange = event => {

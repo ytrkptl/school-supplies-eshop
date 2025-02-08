@@ -19,7 +19,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware({
       serializableCheck: false // Disable for redux-persist
-    }).concat(actionSanitizerMiddleware),
+    }).concat([actionSanitizerMiddleware]),
   devTools: import.meta.env.NODE_ENV !== 'production'
 });
 

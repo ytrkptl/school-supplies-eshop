@@ -1,12 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-
-import {
-  clearItemFromCart,
-  addItem,
-  removeItem
-} from '@/redux/cart/cart.reducer';
-
+import { clearItemFromCart, addItem, removeItem } from '../../redux/cart/cart.reducer';
 import useWindowSize from '../../hooks/useWindowSize';
 
 import {

@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import { initializeApp } from "firebase/app";
 import { getFirestore, writeBatch, collection, doc, getDoc } from "firebase/firestore";
-import { products } from "../../../documentation/products_data_reorganized.js";
-import { categoryImagesData } from "../../../documentation/category_images.js";
+import { products } from "../../../data/products_data_reorganized.js";
+import { categoryImagesData } from "../../../data/category_images.js";
 
 // Your Firebase config
 const firebaseConfig = {

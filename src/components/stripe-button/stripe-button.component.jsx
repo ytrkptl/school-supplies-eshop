@@ -1,53 +1,77 @@
-// import React from 'react';
-// import StripeCheckout from 'react-stripe-checkout';
-// import axios from 'axios';
-// import LogoSmall from '../../assets/Shop13.png';
-
-// const StripeCheckoutButton = ({ price }) => {
-// 	const priceForStripe = price * 100;
-// 	const publishableKey = 'pk_test_xWIiykzW4vcgunyimjiei3gC00q2T1Vlwj';
-
-// 	const onToken = token => {
-// 		axios({
-// 			url: 'payment',
-// 			method: 'post',
-// 			data: {
-// 				amount: priceForStripe,
-// 				token
-// 			}
-// 		}).then(response => {
-// 			alert('Payment successful')
-// 		}).catch(error => {
-// 			console.log('Payment error: ', JSON.parse(error));
-// 			alert(
-// 				'There was an issue with your payment. Please make sure you use the provided credit card.'
-// 			)
-// 		})
-// 	};
-	
-// 	return (
-// 		<StripeCheckout
-// 			label='Pay Now'
-// 			name='Shop Tunnel Inc.'
-// 			billingAddress
-// 			ShippingAddress
-// 			image={LogoSmall}
-// 			description={`Your total is $${price}`}
-// 			amount = {priceForStripe}
-// 			panelLabel='Pay Now'
-// 			token={onToken}
-// 			stripeKey={publishableKey}
-// 		/>
-// 	);
-// };
-
-// export default StripeCheckoutButton;
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { selectCurrentUser } from '@/redux/user/user.selectors';
+import {
+	PaymentMessageContainer,
+	SignInLink,
+	PayButton
+} from './stripe-button.styles';
 
 const StripeCheckoutButton = ({ price }) => {
+	const [message, setMessage] = useState('');
+	const currentUser = useSelector(selectCurrentUser);
+	const priceForStripe = price * 100;
+
+	useEffect(() => {
+		// Check to see if this is a redirect back from Checkout
+		const query = new URLSearchParams(window.location.search);
+
+		if (query.get("success")) {
+			setMessage("Order placed! You will receive an email confirmation.");
+		}
+
+		if (query.get("canceled")) {
+			setMessage(
+				"Order canceled -- continue to shop around and checkout when you're ready."
+			);
+		}
+	}, []);
+
+	const handleSubmit = e => {
+		e.preventDefault();
+		axios({
+			url: '.netlify/functions/create-checkout-session',
+			method: 'POST',
+			data: {
+				amount: priceForStripe,
+			}
+		}).then(response => {
+			console.log(response)
+			if (response.data.url) {
+				window.location.href = response.data.url;
+			}
+		}).catch(error => {
+			console.error('Payment Error:', error);
+			// alert('There was an issue with your payment. Please make sure you use the provided credit card.');
+		})
+	};
+	
 	return (
 		<div>
-			<h3>Stripe Checkout Button</h3>
-			<p>Price: {price}</p>
+			{message ? (
+				<PaymentMessageContainer>{message}</PaymentMessageContainer>
+			) : (
+				<>
+					{currentUser && price > 0 ? (
+						<PayButton onClick={handleSubmit}>Pay Now</PayButton>
+					) : (
+						<PaymentMessageContainer>
+							{!currentUser ? (
+								<>
+									Ready to complete your purchase? 
+									<br />
+									<SignInLink to="/signin">
+										Sign in to checkout
+									</SignInLink>
+								</>
+							) : (
+								'Your cart is empty'
+							)}
+						</PaymentMessageContainer>
+					)}
+				</>
+			)}
 		</div>
 	);
 };

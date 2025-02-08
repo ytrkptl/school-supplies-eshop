@@ -1,8 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-
 import { addItem } from '../../redux/cart/cart.reducer';
-
 import {
   CollectionItemContainer,
   CollectionFooterContainer,
@@ -25,7 +23,7 @@ const CollectionItem = ({ item }) => {
         <NameContainer>{name}</NameContainer>
         <PriceContainer>{price}</PriceContainer>
       </CollectionFooterContainer>
-      <AddButton onClick={handleAddItem} $inverted>
+      <AddButton onClick={handleAddItem} inverted>
         Add to cart
       </AddButton>
     </CollectionItemContainer>
