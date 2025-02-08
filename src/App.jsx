@@ -21,6 +21,8 @@ const SignInAndSignUpPage = lazy(() =>
   import("./pages/sign-in-and-sign-up/sign-in-and-sign-up.component")
 );
 const CheckoutPage = lazy(() => import("./pages/checkout/checkout.component"));
+const PaymentSuccess = lazy(() => import("./pages/payment-status/payment-success.component"));
+const PaymentFailure = lazy(() => import("./pages/payment-status/payment-failure.component"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -42,6 +44,8 @@ const App = () => {
             <Route path="/shop/*" element={<ShopPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route exact path="/checkout" element={<CheckoutPage />} />
+            <Route exact path="/payment-success" element={<PaymentSuccess />} />
+            <Route exact path="/payment-failure" element={<PaymentFailure />} />
             <Route
               exact
               path="/signin"

@@ -43,8 +43,8 @@ export const handler = async function (event, context) {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.APP_DOMAIN || 'http://localhost:8888'}?success=true`,
-      cancel_url: `${process.env.APP_DOMAIN || 'http://localhost:8888'}?canceled=true`,
+      success_url: `${process.env.APP_DOMAIN || 'http://localhost:8888'}/payment-success`,
+      cancel_url: `${process.env.APP_DOMAIN || 'http://localhost:8888'}/payment-failure`,
     });
 
     return {
