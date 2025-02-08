@@ -1,12 +1,10 @@
-
-import { CustomButtonContainer } from './custom-button.styles';
+import { CustomButtonContainer } from "./custom-button.styles";
 
 const CustomButton = ({ children, isGoogleSignIn, inverted, ...otherProps }) => (
-  <CustomButtonContainer 
-    $isGoogleSignIn={isGoogleSignIn} 
-    $inverted={inverted} 
-    {...otherProps}
-  >
+  <CustomButtonContainer
+    $isGoogleSignIn={isGoogleSignIn}
+    $inverted={inverted}
+    {...otherProps}>
     {children}
   </CustomButtonContainer>
 );

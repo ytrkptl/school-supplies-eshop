@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import CustomButton from '../custom-button/custom-button.component';
+import styled from "styled-components";
+import CustomButton from "../custom-button/custom-button.component";
 
 export const CollectionItemContainer = styled.div`
   width: 100%;
@@ -21,7 +21,6 @@ export const CollectionItemContainer = styled.div`
   }
 
   @media screen and (max-width: 800px) {
-
     &:hover {
       .image {
         opacity: unset;
@@ -71,9 +70,9 @@ export const CollectionFooterContainer = styled.div`
   margin-bottom: 6px;
 
   @media screen and (max-width: 550px) {
-      grid-template-columns: 9fr 3fr;
-      grid-template-rows: 1fr;
-    }
+    grid-template-columns: 9fr 3fr;
+    grid-template-rows: 1fr;
+  }
 `;
 
 export const NameContainer = styled.span`

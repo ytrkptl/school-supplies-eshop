@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ContactContainer = styled.div`
   width: 380px;
@@ -36,10 +36,10 @@ export const ContactButtonsContainer = styled.div`
 `;
 
 export const StyledSuccessOrErrorMessage = styled.p`
-  color: ${props => props.haserrored ? "red" : "lightskyblue"};
+  color: ${(props) => (props.haserrored ? "red" : "lightskyblue")};
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background-color:  ${props => props.haserrored ? "white" : "rgba(0, 0, 0, 0.8)"}
-`
+  background-color: ${(props) => (props.haserrored ? "white" : "rgba(0, 0, 0, 0.8)")};
+`;

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 // import Logo2 from '../../assets/Shop10.png';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export const StyledFooter = styled.footer`
   min-height: 200px;

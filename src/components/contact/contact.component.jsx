@@ -7,12 +7,7 @@ import Spinner from "../spinner/spinner.component";
 
 import { sendContactForm } from "@/redux/contact/contact.reducer";
 
-import {
-  ContactContainer,
-  ContactTitle,
-  ContactButtonsContainer,
-  StyledSuccessOrErrorMessage,
-} from "./contact.styles";
+import { ContactContainer, ContactTitle, ContactButtonsContainer, StyledSuccessOrErrorMessage } from "./contact.styles";
 
 const Contact = () => {
   const dispatch = useDispatch();
@@ -23,12 +18,11 @@ const Contact = () => {
   const [userInput, setUserInput] = useState({
     name: "",
     email: "",
-    message: "",
+    message: ""
   });
   const [showSpinner, setShowSpinner] = useState(false);
   const [successOrErrorMessage, setSuccessOrErrorMessage] = useState("");
-  const [showSuccessOrErrorMessage, setShowSuccessOrErrorMessage] =
-    useState(false);
+  const [showSuccessOrErrorMessage, setShowSuccessOrErrorMessage] = useState(false);
   const { name, email, message } = userInput;
 
   useEffect(() => {
@@ -42,9 +36,7 @@ const Contact = () => {
           is valid, we'll get back in touch with you within 48 hours.`);
         setShowSuccessOrErrorMessage(true);
       } else if (data !== null) {
-        setSuccessOrErrorMessage(
-          "Something went wrong. Please try sending the form again!"
-        );
+        setSuccessOrErrorMessage("Something went wrong. Please try sending the form again!");
         setShowSuccessOrErrorMessage(true);
       }
     }
@@ -79,9 +71,7 @@ const Contact = () => {
         />
       )}
       {showSuccessOrErrorMessage && (
-        <StyledSuccessOrErrorMessage haserrored={hasErrored}>
-          {successOrErrorMessage}
-        </StyledSuccessOrErrorMessage>
+        <StyledSuccessOrErrorMessage haserrored={hasErrored}>{successOrErrorMessage}</StyledSuccessOrErrorMessage>
       )}
       <form onSubmit={handleSubmit}>
         <FormInput
@@ -110,7 +100,9 @@ const Contact = () => {
           textareaInstead={true}
         />
         <ContactButtonsContainer>
-          <CustomButton type="submit" disabled={isFetching}>
+          <CustomButton
+            type="submit"
+            disabled={isFetching}>
             Send Message
           </CustomButton>
         </ContactButtonsContainer>

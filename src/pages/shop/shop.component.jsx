@@ -1,12 +1,14 @@
-import { useEffect, lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import Spinner from '../../components/spinner/spinner.component';
+import { useEffect, lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import Spinner from "../../components/spinner/spinner.component";
 
-import { fetchCollectionsAsync } from '../../redux/shop/shop.reducer';
+import { fetchCollectionsAsync } from "../../redux/shop/shop.reducer";
 
-const CollectionsOverviewContainer = lazy(() => import('../../components/collections-overview/collections-overview.container'));
-const CollectionPageContainer = lazy(() => import('../collection/collection.container'));
+const CollectionsOverviewContainer = lazy(
+  () => import("../../components/collections-overview/collections-overview.container")
+);
+const CollectionPageContainer = lazy(() => import("../collection/collection.container"));
 
 const ShopPage = () => {
   const dispatch = useDispatch();
@@ -16,7 +18,7 @@ const ShopPage = () => {
   }, [dispatch]);
 
   return (
-    <div className='shop-page'>
+    <div className="shop-page">
       <Suspense fallback={<Spinner />}>
         <Routes>
           <Route

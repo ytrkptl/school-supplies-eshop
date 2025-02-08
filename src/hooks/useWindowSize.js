@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
@@ -16,15 +16,15 @@ const useWindowSize = () => {
       });
     };
 
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
 
     // Call handler right away so state gets updated with initial window size
     handleResize();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleResize);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
     };
   }, []);
 

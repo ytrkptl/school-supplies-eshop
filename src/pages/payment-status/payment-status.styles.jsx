@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const PaymentStatusContainer = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ export const StatusIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.children === '✓' ? '#4CAF50' : '#f44336'};
+  background-color: ${(props) => (props.children === "✓" ? "#4CAF50" : "#f44336")};
   color: white;
 `;
 

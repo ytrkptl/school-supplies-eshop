@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import ShoppingIconSVG from '../../assets/shopping-bag.svg';
+import styled from "styled-components";
+import ShoppingIconSVG from "../../assets/shopping-bag.svg";
 
 export const CartIconContainer = styled.div`
   width: 45px;
@@ -13,12 +13,12 @@ export const CartIconContainer = styled.div`
   &:hover {
     background-color: rgba(255, 255, 255, 0.7);
     border: 1px solid black;
-  }  
+  }
 `;
 
 export const ShoppingIcon = styled.img.attrs({
   src: ShoppingIconSVG,
-  alt: 'Shopping Cart'
+  alt: "Shopping Cart"
 })`
   width: 24px;
   height: 24px;

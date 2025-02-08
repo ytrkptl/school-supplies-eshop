@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ContactFormContainer = styled.div`
   /* width: 100%; */
@@ -31,4 +31,3 @@ export const ContactFormContainer = styled.div`
     }
   }
 `;
-

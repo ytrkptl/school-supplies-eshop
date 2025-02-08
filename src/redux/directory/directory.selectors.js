@@ -1,8 +1,5 @@
-import { createSelector } from '@reduxjs/toolkit';
+import { createSelector } from "@reduxjs/toolkit";
 
-const selectDirectory = state => state.directory;
+const selectDirectory = (state) => state.directory;
 
-export const selectDirectorySections = createSelector(
-  [selectDirectory],
-  directory => directory.sections
-);
+export const selectDirectorySections = createSelector([selectDirectory], (directory) => directory.sections);

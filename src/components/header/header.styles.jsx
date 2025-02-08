@@ -26,7 +26,7 @@ export const HeaderContainer = styled.div`
 `;
 export const LogoImage = styled.img.attrs({
   src: `https://res.cloudinary.com/dun1b4fpw/image/upload/v1737505464/school-supplies-store/logos/tinified/logo-128.png`,
-  alt: "",
+  alt: ""
 })`
   height: 70px;
   width: auto;
@@ -86,7 +86,8 @@ export const OptionsContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
 
-  & > a:nth-child(3), & > div:nth-child(3) {
+  & > a:nth-child(3),
+  & > div:nth-child(3) {
     text-wrap: nowrap;
   }
 

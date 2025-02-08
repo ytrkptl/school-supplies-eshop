@@ -10,7 +10,7 @@ import {
   LogoImage,
   SchoolShopTitle,
   OptionsContainer,
-  OptionLink,
+  OptionLink
 } from "./header.styles";
 import { signOutStart } from "../../redux/user/user.reducer";
 
@@ -23,7 +23,9 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <LogoContainer to="/" name="logo">
+      <LogoContainer
+        to="/"
+        name="logo">
         <LogoImage />
         <SchoolShopTitle>School Supplies E-Shop</SchoolShopTitle>
       </LogoContainer>
@@ -31,7 +33,9 @@ const Header = () => {
         <OptionLink to="/shop">SHOP</OptionLink>
         <OptionLink to="/contact">CONTACT</OptionLink>
         {currentUser ? (
-          <OptionLink as="div" onClick={handleSignOut}>
+          <OptionLink
+            as="div"
+            onClick={handleSignOut}>
             SIGN OUT
           </OptionLink>
         ) : (

@@ -1,10 +1,6 @@
-import { Component } from 'react';
+import { Component } from "react";
 
-import {
-  ErrorImageOverlay,
-  ErrorImageContainer,
-  ErrorImageText
-} from './error-boundary.styles';
+import { ErrorImageOverlay, ErrorImageContainer, ErrorImageText } from "./error-boundary.styles";
 
 class ErrorBoundary extends Component {
   constructor() {
@@ -27,7 +23,7 @@ class ErrorBoundary extends Component {
     if (this.state.hasErrored) {
       return (
         <ErrorImageOverlay>
-          <ErrorImageContainer $imageUrl='https://i.imgur.com/yW2W9SC.png' />
+          <ErrorImageContainer $imageUrl="https://i.imgur.com/yW2W9SC.png" />
           <ErrorImageText>Sorry this page is broken</ErrorImageText>
         </ErrorImageOverlay>
       );

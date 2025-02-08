@@ -1,16 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import MenuItem from '../menu-item/menu-item.component';
-import { DirectoryMenuContainer } from './directory.styles';
-import useWindowSize from '@/hooks/useWindowSize';
+import MenuItem from "../menu-item/menu-item.component";
+import { DirectoryMenuContainer } from "./directory.styles";
+import useWindowSize from "@/hooks/useWindowSize";
 
-import { 
-  fetchSections,
-  selectDirectory,
-  selectIsLoading,
-  selectError
-} from '@/redux/directory/directory.reducer';
+import { fetchSections, selectDirectory, selectIsLoading, selectError } from "@/redux/directory/directory.reducer";
 
 const Directory = () => {
   const dispatch = useDispatch();
@@ -48,24 +43,24 @@ const Directory = () => {
     };
 
     if (sections.length > 0) {
-      if(width <=600) {
+      if (width <= 600) {
         newColumns = {
           column1: [],
           column2: []
-        }
+        };
         distributeToColumns(newColumns, 1);
-      } else if (width <=900) {
+      } else if (width <= 900) {
         newColumns = {
           column1: [],
           column2: []
-        }
+        };
         distributeToColumns(newColumns, 2);
       } else {
         newColumns = {
           column1: [],
           column2: [],
           column3: []
-        }
+        };
         distributeToColumns(newColumns, 3);
       }
     }
@@ -82,19 +77,28 @@ const Directory = () => {
   return (
     <DirectoryMenuContainer>
       <div>
-      {columnSections.column1.map(({ id, ...otherSectionProps }) => (
-        <MenuItem key={id} {...otherSectionProps} />
-      ))}
+        {columnSections.column1.map(({ id, ...otherSectionProps }) => (
+          <MenuItem
+            key={id}
+            {...otherSectionProps}
+          />
+        ))}
       </div>
       <div>
-      {columnSections.column2?.map(({ id, ...otherSectionProps }) => (
-        <MenuItem key={id} {...otherSectionProps} />
-      ))}
+        {columnSections.column2?.map(({ id, ...otherSectionProps }) => (
+          <MenuItem
+            key={id}
+            {...otherSectionProps}
+          />
+        ))}
       </div>
       <div>
-      {columnSections.column3?.map(({ id, ...otherSectionProps }) => (
-        <MenuItem key={id} {...otherSectionProps} />
-      ))}
+        {columnSections.column3?.map(({ id, ...otherSectionProps }) => (
+          <MenuItem
+            key={id}
+            {...otherSectionProps}
+          />
+        ))}
       </div>
     </DirectoryMenuContainer>
   );

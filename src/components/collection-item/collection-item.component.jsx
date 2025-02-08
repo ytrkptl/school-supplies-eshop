@@ -1,6 +1,5 @@
-
-import { useDispatch } from 'react-redux';
-import { addItem } from '../../redux/cart/cart.reducer';
+import { useDispatch } from "react-redux";
+import { addItem } from "../../redux/cart/cart.reducer";
 import {
   CollectionItemContainer,
   CollectionFooterContainer,
@@ -8,7 +7,7 @@ import {
   BackgroundImage,
   NameContainer,
   PriceContainer
-} from './collection-item.styles';
+} from "./collection-item.styles";
 
 const CollectionItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -18,12 +17,17 @@ const CollectionItem = ({ item }) => {
 
   return (
     <CollectionItemContainer>
-      <BackgroundImage className='image' $imageUrl={imageUrl} />
+      <BackgroundImage
+        className="image"
+        $imageUrl={imageUrl}
+      />
       <CollectionFooterContainer>
         <NameContainer>{name}</NameContainer>
         <PriceContainer>{price}</PriceContainer>
       </CollectionFooterContainer>
-      <AddButton onClick={handleAddItem} inverted>
+      <AddButton
+        onClick={handleAddItem}
+        inverted>
         Add to cart
       </AddButton>
     </CollectionItemContainer>

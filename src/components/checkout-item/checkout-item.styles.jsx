@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CheckoutItemContainer = styled.tr`
   td {
@@ -40,7 +40,7 @@ export const ImageContainer = styled.td`
   @media screen and (max-width: 600px) {
     width: auto;
     padding: 0;
-    
+
     img {
       max-width: 80px;
       margin: 0;
@@ -70,7 +70,7 @@ export const QuantityControlsContainer = styled.td`
 export const QuantityContainer = styled.div`
   display: flex;
   align-items: center;
-  
+
   div {
     cursor: pointer;
     user-select: none;
@@ -83,7 +83,7 @@ export const QuantityContainer = styled.div`
 
   @media screen and (max-width: 600px) {
     margin-left: 1em;
-    
+
     div {
       padding: 5px 10px;
     }
