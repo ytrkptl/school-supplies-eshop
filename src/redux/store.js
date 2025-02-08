@@ -6,7 +6,7 @@ import rootReducer from "@/redux/root-reducer";
 const actionSanitizerMiddleware = (storeAPI) => (next) => (action) => {
   // Ignore Firebase-related actions or any other unwanted actions
   if (action.type.startsWith("@auth")) {
-    console.debug("Filtered out Firebase action:", action);
+    //console.debug("Filtered out Firebase action:", action);
     return;
   }
 
