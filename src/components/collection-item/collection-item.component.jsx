@@ -1,5 +1,6 @@
 import React from 'react';
-import useBagOperations from '../bag-operations/bag-operations.component';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../redux/cart/cart.reducer';
 import {
   CollectionItemContainer,
   CollectionFooterContainer,
@@ -10,8 +11,10 @@ import {
 } from './collection-item.styles';
 
 const CollectionItem = ({ item }) => {
-  const { addItem } = useBagOperations();
+  const dispatch = useDispatch();
   const { name, price, imageUrl } = item;
+
+  const handleAddItem = () => dispatch(addItem(item));
 
   return (
     <CollectionItemContainer>
@@ -20,8 +23,8 @@ const CollectionItem = ({ item }) => {
         <NameContainer>{name}</NameContainer>
         <PriceContainer>{price}</PriceContainer>
       </CollectionFooterContainer>
-      <AddButton onClick={() => addItem(item)} $inverted>
-        Add to bag
+      <AddButton onClick={handleAddItem} inverted>
+        Add to cart
       </AddButton>
     </CollectionItemContainer>
   );

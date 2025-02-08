@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ShoppingIconSVG from '../../assets/shopping-bag.svg';
 
-export const CartContainer = styled.div`
+export const CartIconContainer = styled.div`
   width: 45px;
   height: 45px;
   position: relative;

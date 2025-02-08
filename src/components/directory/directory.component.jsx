@@ -79,8 +79,6 @@ const Directory = () => {
     return <div>Error loading categories: {error}</div>;
   }
 
-  console.log(columnSections);
-
   return (
     <DirectoryMenuContainer>
       <div>

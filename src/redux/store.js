@@ -1,8 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore } from 'redux-persist';
 import rootReducer from "@/redux/root-reducer";
-// import cartMiddleware from './cart/cart.middleware';
-// import bagMiddleware from './bag/bag.middleware';
 
 // Custom middleware to sanitize or filter actions
 const actionSanitizerMiddleware = (storeAPI) => (next) => (action) => {

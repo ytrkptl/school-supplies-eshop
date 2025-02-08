@@ -1,6 +1,6 @@
 import React from 'react';
-import useBagOperations from '../bag-operations/bag-operations.component';
-// import useCartOperations from '../cart-operations/cart-operations.component';
+import { useDispatch } from 'react-redux';
+import { clearItemFromCart, addItem, removeItem } from '../../redux/cart/cart.reducer';
 import useWindowSize from '../../hooks/useWindowSize';
 
 import {
@@ -13,22 +13,26 @@ import {
   MobileRowContainer
 } from './checkout-item.styles';
 
-const CheckoutItem = ({ bagItem }) => {
-  const { clearItemFromBag, addItem, removeItem } = useBagOperations();
-  const { name, imageUrl, price, quantity } = bagItem;
+const CheckoutItem = ({ cartItem }) => {
+  const dispatch = useDispatch();
+  const { name, imageUrl, price, quantity } = cartItem;
   const { width } = useWindowSize();
   const isMobile = width <= 600;
 
+  const handleClearItem = () => dispatch(clearItemFromCart(cartItem));
+  const handleAddItem = () => dispatch(addItem(cartItem));
+  const handleRemoveItem = () => dispatch(removeItem(cartItem));
+
   const QuantityControls = () => (
     <QuantityContainer>
-      <div onClick={() => removeItem(bagItem)}>&#10094;</div>
+      <div onClick={handleRemoveItem}>&#10094;</div>
       <span>{quantity}</span>
-      <div onClick={() => addItem(bagItem)}>&#10095;</div>
+      <div onClick={handleAddItem}>&#10095;</div>
     </QuantityContainer>
   );
 
   const RemoveButton = ({ className }) => (
-    <RemoveButtonContainer onClick={() => clearItemFromBag(bagItem)} className={className}>
+    <RemoveButtonContainer onClick={handleClearItem} className={className}>
       &#10005;
     </RemoveButtonContainer>
   );
@@ -69,7 +73,7 @@ const CheckoutItem = ({ bagItem }) => {
       <TextContainer data-label="Price">
         ${price}
       </TextContainer>
-      <RemoveButtonContainer onClick={() => clearItemFromBag(bagItem)} className="desktop-only">
+      <RemoveButtonContainer onClick={handleClearItem} className="desktop-only">
         &#10005;
       </RemoveButtonContainer>
     </CheckoutItemContainer>

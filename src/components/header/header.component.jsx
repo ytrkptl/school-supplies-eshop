@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import CartIcon from "../cart-icon/cart-icon.component";
 
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
-import { selectBagHidden } from "../../redux/bag/bag.selectors";
+import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import {
   HeaderContainer,
@@ -17,7 +17,7 @@ import { signOutStart } from "../../redux/user/user.reducer";
 
 const Header = () => {
   const currentUser = useSelector(selectCurrentUser);
-  const hidden = useSelector(selectBagHidden);
+  const hidden = useSelector(selectCartHidden);
   const dispatch = useDispatch();
 
   const handleSignOut = () => dispatch(signOutStart());

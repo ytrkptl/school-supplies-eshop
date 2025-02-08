@@ -3,8 +3,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import userReducer from "./user/user.reducer";
-import bagReducer from './bag/bag.reducer';
-import onlineCartReducer from './online-cart/online-cart.slice';
+import cartReducer from './cart/cart.reducer';
 import directoryReducer from './directory/directory.reducer';
 import shopReducer from './shop/shop.reducer';
 import contactFormReducer from './contact/contact.reducer';
@@ -12,13 +11,12 @@ import contactFormReducer from './contact/contact.reducer';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['bag']
+  whitelist: ['cart']
 }
 
 const rootReducer = combineReducers({
-  bag: bagReducer,
   user: userReducer,
-  onlineCart: onlineCartReducer,
+  cart: cartReducer,
   directory: directoryReducer,
   shop: shopReducer,
   contactForm: contactFormReducer

@@ -9,7 +9,6 @@ import {
   signOutFromFirebase
 } from '@/utils/firebase/firebase.utils';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { fetchCart, clearOnlineCart, syncWithFirebase } from '../online-cart/online-cart.slice';
 
 // Helper function to get user snapshot
 const getUserSnapshot = async (userAuth, additionalData) => {
@@ -34,7 +33,7 @@ export const checkUserSession = createAsyncThunk(
 
 export const googleSignInStart = createAsyncThunk(
   'user/googleSignIn',
-  async (_, { dispatch, rejectWithValue, getState }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       const { user } = await signInWithPopup(auth, googleProvider);
       
@@ -43,26 +42,8 @@ export const googleSignInStart = createAsyncThunk(
       const userSnapshot = await getDoc(userRef);
       const userProfile = { id: userSnapshot.id, ...userSnapshot.data() };
 
-      // Get the current bag items
-      const { bag } = getState();
-      const { localBag } = bag;
-
-      // If there are items in the local bag, sync them first
-      if (localBag.length > 0) {
-        await dispatch(syncWithFirebase({ 
-          userId: userProfile.id, 
-          bagItems: localBag 
-        })).unwrap();
-        // Clear local bag after successful sync
-        dispatch(clearLocalBag());
-      } else {
-        // Otherwise, just fetch any existing online cart
-        await dispatch(fetchCart(userProfile.id));
-      }
-      
       return userProfile;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.message);
     }
   }
@@ -70,30 +51,10 @@ export const googleSignInStart = createAsyncThunk(
 
 export const emailSignInStart = createAsyncThunk(
   'user/emailSignIn',
-  async ({ email, password }, { dispatch, rejectWithValue, getState }) => {
+  async ({ email, password }, { dispatch, rejectWithValue }) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
       const userSnapshot = await getUserSnapshot(user);
-      const userProfile = {
-        id: userSnapshot.id,  // This is the document ID (uid)
-        ...userSnapshot.data()
-      };
-      // Get current bag items
-      const { bag } = getState();
-      const { localBag } = bag;
-
-      // If there are items in the local bag, sync them first
-      if (localBag.length > 0) {
-        await dispatch(syncWithFirebase({ 
-          userId: userSnapshot.id, 
-          bagItems: localBag 
-        })).unwrap();
-        // Clear local bag after successful sync
-        dispatch(clearLocalBag());
-      } else {
-        // Otherwise, just fetch any existing online cart
-        await dispatch(fetchCart(userSnapshot.id));
-      }
       return userSnapshot;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -125,8 +86,6 @@ export const signOutStart = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       await signOutFromFirebase();
-      // Clear online cart on sign out
-      dispatch(clearOnlineCart());
       return null;
     } catch (error) {
       return rejectWithValue(error.message);

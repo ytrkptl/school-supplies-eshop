@@ -66,7 +66,7 @@ const StripeCheckoutButton = ({ price }) => {
 									</SignInLink>
 								</>
 							) : (
-								'Your bag is empty'
+								'Your cart is empty'
 							)}
 						</PaymentMessageContainer>
 					)}

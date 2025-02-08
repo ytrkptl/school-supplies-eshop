@@ -1,13 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-// import PaymentForm from '../../components/payment-form/payment-form.component';
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
 import StripeCheckoutButton from '@/components/stripe-button/stripe-button.component';
 
 import {
-  selectBagItems,
-  selectBagTotal
-} from '../../redux/bag/bag.selectors';
+  selectCartItems,
+  selectCartTotal
+} from '../../redux/cart/cart.selectors';
 
 import {
   CheckoutPageContainer,
@@ -21,9 +20,8 @@ import {
 } from './checkout.styles';
 
 const CheckoutPage = () => {
-  // const cartItems = useSelector(selectCartItems);
-  const bagItems = useSelector(selectBagItems);
-  const total = useSelector(selectBagTotal);
+  const cartItems = useSelector(selectCartItems);
+  const total = useSelector(selectCartTotal);
 
   return (
     <CheckoutPageContainer>
@@ -38,8 +36,8 @@ const CheckoutPage = () => {
           </HeaderRow>
         </CheckoutHeader>
         <CheckoutBody>
-          {bagItems.map(bagItem => (
-            <CheckoutItem key={bagItem.id} bagItem={bagItem} />
+          {cartItems.map(cartItem => (
+            <CheckoutItem key={cartItem.id} cartItem={cartItem} />
           ))}
         </CheckoutBody>
       </CheckoutTable>
@@ -49,7 +47,6 @@ const CheckoutPage = () => {
         <br />
         4242 4242 4242 4242 - Exp: 01/20 - CVV: 123
       </WarningContainer>
-      {/* <PaymentForm price={total} /> */}
       <StripeCheckoutButton price={total} />
     </CheckoutPageContainer>
   );

@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import CartItem from '../cart-item/cart-item.component';
-import { selectBagItems } from '../../redux/bag/bag.selectors';
-import { toggleBagHidden } from '../../redux/bag/bag.reducer';
+import { selectCartItems } from '../../redux/cart/cart.selectors';
+import { toggleCartHidden } from '../../redux/cart/cart.reducer';
 
 import {
   CartDropdownContainer,
@@ -14,13 +14,13 @@ import {
 } from './cart-dropdown.styles';
 
 const CartDropdown = () => {
-  const cartItems = useSelector(selectBagItems);
   const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
   const navigate = useNavigate();
 
-  const goToCheckout = () => {
+  const handleGoToCheckout = () => {
     navigate('/checkout');
-    dispatch(toggleBagHidden());
+    dispatch(toggleCartHidden());
   };
 
   return (
@@ -34,7 +34,7 @@ const CartDropdown = () => {
           <EmptyMessageContainer>Your cart is empty</EmptyMessageContainer>
         )}
       </CartItemsContainer>
-      <CartDropdownButton onClick={goToCheckout}>
+      <CartDropdownButton onClick={handleGoToCheckout}>
         GO TO CHECKOUT
       </CartDropdownButton>
     </CartDropdownContainer>
