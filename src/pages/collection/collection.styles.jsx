@@ -22,7 +22,7 @@ export const CollectionItemsContainer = styled.div`
   display: grid;
   width: 100%;
   grid-template-columns: 4fr 4fr 4fr;
-  grid-gap: 10px;
+  grid-gap: 1rem;
 
   @media screen and (max-width: 750px) {
     grid-template-columns: 6fr 6fr;

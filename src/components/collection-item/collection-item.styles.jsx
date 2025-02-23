@@ -5,69 +5,43 @@ export const CollectionItemContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 350px;
+  height: 380px;
   align-items: center;
   position: relative;
-
-  &:hover {
-    .image {
-      opacity: 0.8;
-    }
-
-    button {
-      opacity: 0.85;
-      display: flex;
-    }
-  }
-
-  @media screen and (max-width: 800px) {
-    &:hover {
-      .image {
-        opacity: unset;
-      }
-
-      button {
-        opacity: unset;
-      }
-    }
-  }
+  margin: 1rem 0;
 `;
 
 export const AddButton = styled(CustomButton)`
   width: 80%;
-  opacity: 0.7;
-  position: absolute;
-  top: 64%;
-  display: none;
-  max-width: 120px;
-  min-width: 0px;
-  padding: 0;
+  display: flex;
+  max-width: 256px;
+  padding: 0 10px;
   letter-spacing: normal;
-
-  @media screen and (max-width: 800px) {
-    display: block;
-    opacity: 0.9;
-    min-width: unset;
-    padding: 0 10px;
-  }
+  align-self: center;
 `;
 
 export const BackgroundImage = styled.div`
   width: 100%;
   height: 95%;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   margin-bottom: 5px;
   background-image: ${({ $imageUrl }) => `url(${$imageUrl})`};
+  background-repeat: no-repeat;
 `;
 
 export const CollectionFooterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const NameContainerAndPriceContainer = styled.div`
   width: 100%;
   height: 40px;
   display: grid;
   grid-template-columns: 10fr 2fr;
   font-size: 18px;
-  margin-bottom: 6px;
+  margin-bottom: 1rem;
 
   @media screen and (max-width: 550px) {
     grid-template-columns: 9fr 3fr;
