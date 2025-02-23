@@ -8,7 +8,8 @@ import { CollectionPreviewContainer, TitleContainer, NextArrow, PrevArrow } from
 const getVisibleSlides = () => {
   if (window.innerWidth <= 480) return 1;
   if (window.innerWidth <= 768) return 2;
-  return 3;
+  if (window.innerWidth <= 1024) return 3;
+  return 4;
 };
 
 const CustomNextArrow = ({ onClick, currentSlide, slideCount, className }) => {

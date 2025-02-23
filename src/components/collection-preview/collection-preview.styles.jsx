@@ -80,6 +80,7 @@ const ArrowButton = styled.button`
 
 export const NextArrow = styled(ArrowButton)`
   right: 0;
+  top: 40%;
 
   &::before {
     transform: rotate(45deg);
@@ -89,6 +90,7 @@ export const NextArrow = styled(ArrowButton)`
 
 export const PrevArrow = styled(ArrowButton)`
   left: 0;
+  top: 40%;
 
   &::before {
     transform: rotate(-135deg);
