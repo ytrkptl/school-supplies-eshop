@@ -5,6 +5,7 @@ import {
   CollectionFooterContainer,
   AddButton,
   BackgroundImage,
+  NameContainerAndPriceContainer,
   NameContainer,
   PriceContainer
 } from "./collection-item.styles";
@@ -22,14 +23,16 @@ const CollectionItem = ({ item }) => {
         $imageUrl={imageUrl}
       />
       <CollectionFooterContainer>
-        <NameContainer>{name}</NameContainer>
-        <PriceContainer>{price}</PriceContainer>
+        <NameContainerAndPriceContainer>
+          <NameContainer>{name}</NameContainer>
+          <PriceContainer>${price}</PriceContainer>
+        </NameContainerAndPriceContainer>
+        <AddButton
+          onClick={handleAddItem}
+          inverted>
+          Add to cart
+        </AddButton>
       </CollectionFooterContainer>
-      <AddButton
-        onClick={handleAddItem}
-        inverted>
-        Add to cart
-      </AddButton>
     </CollectionItemContainer>
   );
 };
