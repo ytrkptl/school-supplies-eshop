@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Slider from "react-slick";
+import SlickSlider from "react-slick";
 import CollectionItem from "../collection-item/collection-item.component";
 
 import { CollectionPreviewContainer, TitleContainer, NextArrow, PrevArrow } from "./collection-preview.styles";
+
+const Slider = SlickSlider.default ?? SlickSlider;
 
 const getVisibleSlides = () => {
   if (window.innerWidth <= 480) return 1;
