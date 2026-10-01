@@ -32,7 +32,7 @@
     "react-stripe-checkout": "^2.6.3",
     "redux-persist": "^6.0.0",
     "stripe": "^17.5.0",
-    "styled-components": "^6.1.14"
+    "styled-components": "^6.5.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
