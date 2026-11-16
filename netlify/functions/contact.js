@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 export const handler = async (event) => {
   // Only allow POST
