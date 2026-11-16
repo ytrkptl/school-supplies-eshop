@@ -17,38 +17,41 @@
     "kill-ports": "npx kill-port 8080 9099 4000 5173 8888"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.13.0",
-    "@stripe/react-stripe-js": "^3.1.1",
-    "@stripe/stripe-js": "^5.5.0",
-    "axios": "^1.20.0",
-    "dotenv": "^16.4.7",
+    "@reduxjs/toolkit": "^2.14.0",
+    "@stripe/react-stripe-js": "^3.11.0",
+    "@stripe/stripe-js": "^5.10.0",
+    "axios": "^1.21.1",
+    "dotenv": "^16.6.1",
     "firebase": "^12.19.0",
-    "nodemailer": "^10.0.13",
+    "nodemailer": "^10.6.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-redux": "^9.3.0",
-    "react-router-dom": "^7.18.4",
+    "react-redux": "^9.3.1",
+    "react-router-dom": "^7.18.5",
     "react-slick": "^0.31.0",
     "react-stripe-checkout": "^2.6.3",
     "redux-persist": "^6.0.0",
     "stripe": "^22.6.2",
-    "styled-components": "^6.5.3"
+    "styled-components": "^6.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.7",
+    "@babel/core": "^7.29.13",
     "@eslint/js": "^9.20.0",
     "@rolldown/plugin-babel": "^0.2.4",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react": "^6.1.1",
-    "babel-plugin-styled-components": "^2.3.0",
-    "concurrently": "^10.0.5",
-    "eslint": "^9.20.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^6.3.0",
+    "babel-plugin-styled-components": "^2.4.0",
+    "concurrently": "^10.0.7",
+    "eslint": "^9.39.5",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.5.7",
-    "globals": "^15.14.0",
-    "prettier": "^3.9.9",
-    "vite": "^8.3.1"
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.5.8",
+    "globals": "^15.15.0",
+    "prettier": "^3.10.1",
+    "vite": "^8.3.8"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.5"
   }
 }
