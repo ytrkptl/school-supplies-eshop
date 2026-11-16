@@ -35,13 +35,13 @@
     "styled-components": "^6.5.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.7",
+    "@babel/core": "^8.1.2",
     "@eslint/js": "^9.20.0",
     "@rolldown/plugin-babel": "^0.2.4",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^6.1.1",
-    "babel-plugin-styled-components": "^2.3.0",
+    "babel-plugin-styled-components": "^2.4.0",
     "concurrently": "^10.0.5",
     "eslint": "^9.20.0",
     "eslint-plugin-react": "^7.37.5",
