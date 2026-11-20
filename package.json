@@ -31,7 +31,7 @@
     "react-slick": "^0.31.0",
     "react-stripe-checkout": "^2.6.3",
     "redux-persist": "^6.0.0",
-    "stripe": "^22.6.2",
+    "stripe": "^23.1.0",
     "styled-components": "^6.5.3"
   },
   "devDependencies": {
